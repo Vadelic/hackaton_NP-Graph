@@ -1,12 +1,8 @@
 package sbrf.hackaton.cit;
 
-import sbrf.hackaton.cit.api.Edge;
 import sbrf.hackaton.cit.api.Vertex;
 
 import java.util.Map;
-import java.util.Objects;
-import java.util.PriorityQueue;
-import java.util.Set;
 import java.util.concurrent.LinkedBlockingDeque;
 
 public class BFS {
@@ -36,7 +32,7 @@ public class BFS {
         while (!vertexQueue.isEmpty()) {
             Vertex nodeCurrent = vertexQueue.poll();
             nodeCurrent.visit();
-            System.out.println(nodeCurrent+"->V:"+nodeCurrent.marker());
+            System.out.println(nodeCurrent + "->V:" + nodeCurrent.marker());
 
             Map<Vertex, Object> targetNodes = nodeCurrent.getTargetNodes();
             for (Map.Entry<Vertex, Object> entry : targetNodes.entrySet()) {
