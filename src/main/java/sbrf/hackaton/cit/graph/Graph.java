@@ -1,7 +1,5 @@
 package sbrf.hackaton.cit.graph;
 
-import sbrf.hackaton.cit.api.Edge;
-import sbrf.hackaton.cit.api.Vertex;
 import sbrf.hackaton.cit.domain.Atm;
 import sbrf.hackaton.cit.domain.Road;
 
@@ -13,7 +11,7 @@ import java.util.StringJoiner;
 /**
  * Created by Komyshenets on 25.09.2019.
  */
-public class Graph<E extends Edge, V extends Vertex> {
+public class Graph {
     Atm[] vertexes;
     Road[] edges;
 
@@ -38,7 +36,7 @@ public class Graph<E extends Edge, V extends Vertex> {
 
     private Road createRoad(int lenL, int lenR, Atm vertexA, Atm vertexB) {
         Road road = new Road(lenL);
-        road.addVertex(vertexA, vertexB);
+        road.addAtm(vertexA, vertexB);
         return road;
     }
 

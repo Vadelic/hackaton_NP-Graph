@@ -1,8 +1,8 @@
 package sbrf.hackaton.cit.graph;
 
 import org.junit.jupiter.api.Test;
-import sbrf.hackaton.cit.api.Edge;
 import sbrf.hackaton.cit.domain.Atm;
+import sbrf.hackaton.cit.domain.Car;
 import sbrf.hackaton.cit.domain.Road;
 
 import java.util.Set;
@@ -27,12 +27,21 @@ class GraphTest {
 
     @Test
     void Constructor() {
-        Graph<Road, Atm> roadAtmGraph = new Graph<>(vx, ex);
+        Graph roadAtmGraph = new Graph(vx, ex);
         System.out.println(roadAtmGraph);
 
         Atm rootVertex = roadAtmGraph.getRootVertex(0);
         System.out.println(rootVertex);
-        Set<Edge> edges = rootVertex.getEdges();
+        Set<Road> edges = rootVertex.getRoads();
         System.out.println(edges);
+    }
+
+    @Test
+    void looking() {
+        Atm destinationPoint = new Graph(vx, ex).getRootVertex(0);
+        Car car = new Car(35, 100);
+        RoadExplorer route = new RoadExplorer(destinationPoint, car);
+        route.routeSearch(destinationPoint);
+        System.out.println(car);
     }
 }
