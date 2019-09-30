@@ -6,18 +6,15 @@ import java.util.*;
  * Created by Komyshenets on 25.09.2019.
  */
 public class Atm {
-    Set<Road> roads = new HashSet<>();
-    public boolean visited = false;
+    private static int count =0;
+    private final int index;
+    private Set<Road> roads = new HashSet<>();
     private int value;
 
 
     public Atm(int value) {
         this.value = value;
-    }
-
-    @Override
-    public String toString() {
-        return String.valueOf(value);
+        index=++count;
     }
 
     public int getMoney() {
@@ -42,5 +39,23 @@ public class Atm {
             }
         }
         return vertexHashMap;
+    }
+
+    @Override
+    public String toString() {
+        return String.valueOf(index)+" ("+ String.valueOf(value)+")";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Atm atm = (Atm) o;
+        return index == atm.index;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(index);
     }
 }

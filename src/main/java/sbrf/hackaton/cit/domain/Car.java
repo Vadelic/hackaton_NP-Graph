@@ -1,7 +1,5 @@
 package sbrf.hackaton.cit.domain;
 
-import org.apache.log4j.Logger;
-
 import java.util.LinkedList;
 import java.util.List;
 
@@ -9,18 +7,18 @@ import java.util.List;
  * Created by Komyshenets on 29.09.2019.
  */
 public class Car {
-    private final Logger logger = Logger.getLogger(Car.class);
+    //    private final Logger logger = Logger.getLogger(Car.class);
     private final LinkedList<Atm> currentPath = new LinkedList<>();
     private final LinkedList<Road> currentRoads = new LinkedList<>();
 
     private final List<LinkedList<Atm>> fixedPaths = new LinkedList<>();
 
     private final int maximumTime;
-    private final int maximumWeight;
+    private final int maximumMoney;
 
     public Car(int time, int weight) {
         this.maximumTime = time;
-        this.maximumWeight = weight;
+        this.maximumMoney = weight;
     }
 
     public void fixRoot() {
@@ -28,16 +26,13 @@ public class Car {
 //todo
         LinkedList<Atm> clone = (LinkedList<Atm>) currentPath.clone();
         fixedPaths.add(clone);
-        logger.info("New route found: " + currentPath);
+//        logger.info("New route found: " + currentPath);
         System.out.println("New route found: " + currentPath);
     }
 
     public void goToPoint(Road road, Atm atm) {
-       if (!atm.visited){
-           atm.visited = true;
-           addPoint(atm);
-           addRoad(road);
-       }
+        addPoint(atm);
+        addRoad(road);
     }
 
     private void addPoint(Atm atm) {
@@ -50,7 +45,6 @@ public class Car {
     }
 
     public void removePointAndRoad() {
-        currentPath.getLast().visited = false;
         currentPath.removeLast();
         if (!currentRoads.isEmpty())
             currentRoads.removeLast();
@@ -66,14 +60,20 @@ public class Car {
 
     private boolean availablePoint(Atm targetAtm) {
         // todo
-        return currentPath.stream()
-                .map(Atm::getMoney).mapToInt(Integer::intValue).sum() + targetAtm.getMoney() <= maximumWeight;
+        int sum = currentPath.stream().map(Atm::getMoney).mapToInt(Integer::intValue).sum();
+        if (!currentPath.contains(targetAtm))
+            sum += targetAtm.getMoney();
+        return sum <= maximumMoney;
     }
 
     private boolean availableRoad(Road targetRoad) {
         // todo
         return currentRoads.stream()
-                .map(Road::getDistance).mapToInt(Integer::intValue).sum() + targetRoad.getDistance() <= maximumWeight;
+                .map(Road::getDistance).distinct().mapToInt(Integer::intValue).sum() + targetRoad.getDistance() <= maximumTime;
 
+    }
+
+    public List<LinkedList<Atm>> getAllAvailableRouts() {
+        return fixedPaths;
     }
 }

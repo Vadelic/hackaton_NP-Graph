@@ -5,6 +5,8 @@ import sbrf.hackaton.cit.domain.Atm;
 import sbrf.hackaton.cit.domain.Car;
 import sbrf.hackaton.cit.domain.Road;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -39,9 +41,13 @@ class GraphTest {
     @Test
     void looking() {
         Atm destinationPoint = new Graph(vx, ex).getRootVertex(0);
-        Car car = new Car(35, 100);
+        Car car = new Car(15, 10);
         RoadExplorer route = new RoadExplorer(destinationPoint, car);
         route.routeSearch(destinationPoint);
+        List<LinkedList<Atm>> allAvailableRouts = car.getAllAvailableRouts();
+        for (LinkedList<Atm> allAvailableRout : allAvailableRouts) {
+
+        }
         System.out.println(car);
     }
 }

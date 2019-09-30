@@ -6,12 +6,15 @@ import java.util.Objects;
 /**
  * Created by Komyshenets on 25.09.2019.
  */
-public class Road  {
+public class Road {
+    private static int count = 0;
+    private final int index;
     private Atm[] nodes = new Atm[2];
-    protected Integer value;
+    private Integer value;
 
     public Road(int distance) {
         this.value = distance;
+        index = ++count;
     }
 
     @Override
@@ -44,6 +47,18 @@ public class Road  {
         return null;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Road road = (Road) o;
+        return index == road.index;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(index);
+    }
 }
 
 
