@@ -1,10 +1,7 @@
 package sbrf.hackaton.cit.graph;
 
 import com.sun.istack.internal.Nullable;
-import sbrf.hackaton.cit.domain.Atm;
-import sbrf.hackaton.cit.domain.Car;
-import sbrf.hackaton.cit.domain.Road;
-import sbrf.hackaton.cit.domain.Route;
+import sbrf.hackaton.cit.domain.*;
 
 import java.util.*;
 
@@ -22,6 +19,7 @@ public class RoadExplorer {
     }
 
     public void routeSearch(Atm startPoint) {
+        fixedRoutes.clear();
         routeSearch(null, startPoint);
     }
 
@@ -29,7 +27,7 @@ public class RoadExplorer {
         car.goToPoint(road, atm);
         if (!car.justStarted() && atm.equals(destinationPoint)) {
             //We arrived at destination
-            Route route = car.fixRoot();
+            Route route = car.fixRoute();
             fixedRoutes.add(route);
         } else {
             Map<Road, Atm> possibleRoutes = atm.getPossibleRoutes();

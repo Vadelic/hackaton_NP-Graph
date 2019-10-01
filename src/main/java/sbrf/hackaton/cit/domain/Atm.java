@@ -6,15 +6,16 @@ import java.util.*;
  * Created by Komyshenets on 25.09.2019.
  */
 public class Atm {
-    private static int count =0;
+    private static int count = 0;
     private final int index;
     private Set<Road> roads = new HashSet<>();
     private int value;
+    private boolean visit = false;
 
 
     public Atm(int value) {
         this.value = value;
-        index=++count;
+        index = ++count;
     }
 
     int getMoney() {
@@ -43,7 +44,7 @@ public class Atm {
 
     @Override
     public String toString() {
-        return index +" ("+ value +")";
+        return index + " (" + value + ")";
     }
 
     @Override
@@ -57,5 +58,13 @@ public class Atm {
     @Override
     public int hashCode() {
         return Objects.hash(index);
+    }
+
+    public void visit() {
+        visit = true;
+    }
+
+    public boolean isVisited() {
+        return visit;
     }
 }

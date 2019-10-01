@@ -1,5 +1,9 @@
 package sbrf.hackaton.cit.domain;
 
+import java.util.LinkedList;
+import java.util.List;
+import java.util.stream.IntStream;
+
 /**
  * Created by Komyshenets on 29.09.2019.
  */
@@ -8,15 +12,16 @@ public class Car {
 
     private final int maximumTime;
     private final int maximumMoney;
+    private final List<Route> completeRoutes = new LinkedList<>();
 
     public Car(int time, int weight) {
         this.maximumTime = time;
         this.maximumMoney = weight;
     }
 
-    public Route fixRoot() {
+    public Route fixRoute() {
         //We arrived at destination
-        return currentRoute.clone();
+        return currentRoute.fix();
     }
 
     public void goToPoint(Road road, Atm atm) {
@@ -44,7 +49,16 @@ public class Car {
     }
 
     private boolean availableRoad(Road targetRoad) {
-        return currentRoute.getRoadValue() + targetRoad.getDistance() <= maximumTime;
+        int usedTime = completeRoutes.stream().mapToInt(Route::getRoadValue).sum();
+        return currentRoute.getRoadValue() + targetRoad.getDistance() <= maximumTime - usedTime;
     }
 
+    public void visitRoute(Route bestRoute) {
+        bestRoute.visit();
+        completeRoutes.add(bestRoute);
+    }
+
+    public List<Route> getCompleteRoutes() {
+        return completeRoutes;
+    }
 }
