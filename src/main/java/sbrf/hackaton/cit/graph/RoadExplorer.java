@@ -4,8 +4,9 @@ import com.sun.istack.internal.Nullable;
 import sbrf.hackaton.cit.domain.Atm;
 import sbrf.hackaton.cit.domain.Car;
 import sbrf.hackaton.cit.domain.Road;
+import sbrf.hackaton.cit.domain.Route;
 
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Komyshenets on 28.09.2019.
@@ -13,6 +14,7 @@ import java.util.Map;
 public class RoadExplorer {
     private final Atm destinationPoint;
     private final Car car;
+    private final List<Route> fixedRoutes = new LinkedList<>();
 
     public RoadExplorer(Atm destinationPoint, Car car) {
         this.destinationPoint = destinationPoint;
@@ -27,7 +29,8 @@ public class RoadExplorer {
         car.goToPoint(road, atm);
         if (!car.justStarted() && atm.equals(destinationPoint)) {
             //We arrived at destination
-            car.fixRoot();
+            Route route = car.fixRoot();
+            fixedRoutes.add(route);
         } else {
             Map<Road, Atm> possibleRoutes = atm.getPossibleRoutes();
             for (Map.Entry<Road, Atm> entry : possibleRoutes.entrySet()) {
@@ -39,5 +42,12 @@ public class RoadExplorer {
             }
         }
         car.removePointAndRoad();
+    }
+    public List<Route> getAllAvailableRouts() {
+        return fixedRoutes;
+    }
+
+    public Optional<Route> getBestRouts() {
+        return fixedRoutes.stream().max(Comparator.comparingDouble(Route::getCost));
     }
 }

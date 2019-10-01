@@ -41,7 +41,7 @@ public class Road {
         return nodes[1];
     }
 
-    public Atm getTarget(Atm from) {
+    Atm getTarget(Atm from) {
         if (!Objects.equals(from, getLeft())) return getLeft();
         if (!Objects.equals(from, getRight())) return getRight();
         return null;
@@ -59,6 +59,7 @@ public class Road {
     public int hashCode() {
         return Objects.hash(index);
     }
+
 }
 
 

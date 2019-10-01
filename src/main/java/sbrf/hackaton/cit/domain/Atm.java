@@ -17,12 +17,12 @@ public class Atm {
         index=++count;
     }
 
-    public int getMoney() {
+    int getMoney() {
         return value;
     }
 
 
-    public void addRoad(Road road) {
+    void addRoad(Road road) {
         roads.add(road);
     }
 
@@ -43,7 +43,7 @@ public class Atm {
 
     @Override
     public String toString() {
-        return String.valueOf(index)+" ("+ String.valueOf(value)+")";
+        return index +" ("+ value +")";
     }
 
     @Override

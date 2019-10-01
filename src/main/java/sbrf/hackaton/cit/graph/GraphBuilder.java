@@ -11,11 +11,11 @@ import java.util.StringJoiner;
 /**
  * Created by Komyshenets on 25.09.2019.
  */
-public class Graph {
-    Atm[] vertexes;
-    Road[] edges;
+public class GraphBuilder {
+    private Atm[] vertexes;
+    private Road[] edges;
 
-    public Graph(int[] vertex, int[][] edges) {
+    public GraphBuilder(int[] vertex, int[][] edges) {
         this.vertexes = getVertex(vertex);
         this.edges = getRoads(edges, vertexes);
     }
@@ -50,7 +50,7 @@ public class Graph {
 
     @Override
     public String toString() {
-        return new StringJoiner(", ", Graph.class.getSimpleName() + "[", "]")
+        return new StringJoiner(", ", GraphBuilder.class.getSimpleName() + "[", "]")
                 .add("\nvertexes=" + Arrays.toString(vertexes))
                 .add("\nedges=" + Arrays.toString(edges))
                 .toString();

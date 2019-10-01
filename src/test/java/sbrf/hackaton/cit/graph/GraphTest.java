@@ -4,9 +4,9 @@ import org.junit.jupiter.api.Test;
 import sbrf.hackaton.cit.domain.Atm;
 import sbrf.hackaton.cit.domain.Car;
 import sbrf.hackaton.cit.domain.Road;
+import sbrf.hackaton.cit.domain.Route;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.Collection;
 import java.util.Set;
 
 /**
@@ -29,10 +29,10 @@ class GraphTest {
 
     @Test
     void Constructor() {
-        Graph roadAtmGraph = new Graph(vx, ex);
-        System.out.println(roadAtmGraph);
+        GraphBuilder graph = new GraphBuilder(vx, ex);
+        System.out.println(graph);
 
-        Atm rootVertex = roadAtmGraph.getRootVertex(0);
+        Atm rootVertex = graph.getRootVertex(0);
         System.out.println(rootVertex);
         Set<Road> edges = rootVertex.getRoads();
         System.out.println(edges);
@@ -40,14 +40,18 @@ class GraphTest {
 
     @Test
     void looking() {
-        Atm destinationPoint = new Graph(vx, ex).getRootVertex(0);
+        Atm destinationPoint = new GraphBuilder(vx, ex).getRootVertex(0);
         Car car = new Car(15, 10);
-        RoadExplorer route = new RoadExplorer(destinationPoint, car);
-        route.routeSearch(destinationPoint);
-        List<LinkedList<Atm>> allAvailableRouts = car.getAllAvailableRouts();
-        for (LinkedList<Atm> allAvailableRout : allAvailableRouts) {
+        RoadExplorer roadExplorer = new RoadExplorer(destinationPoint, car);
+        roadExplorer.routeSearch(destinationPoint);
+        Collection<Route> allAvailableRouts = roadExplorer.getAllAvailableRouts();
 
+        for (Route rout : allAvailableRouts) {
+            System.out.println(rout);
         }
-        System.out.println(car);
+
+        Route bestRouts = roadExplorer.getBestRouts().orElse(null
+        );
+        System.out.println("best: " + bestRouts);
     }
 }
