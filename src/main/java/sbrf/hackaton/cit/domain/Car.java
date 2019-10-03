@@ -19,9 +19,9 @@ public class Car {
         this.maximumMoney = weight;
     }
 
-    public Route fixRoute() {
+    public FixedRoute fixRoute() {
         //We arrived at destination
-        return currentRoute.fix();
+        return new FixedRoute(currentRoute);
     }
 
     public void goToPoint(Road road, Atm atm) {
