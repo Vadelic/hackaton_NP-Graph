@@ -1,7 +1,10 @@
 package sbrf.hackaton.cit.graph;
 
 import com.sun.istack.internal.Nullable;
-import sbrf.hackaton.cit.domain.*;
+import sbrf.hackaton.cit.domain.Atm;
+import sbrf.hackaton.cit.domain.Car;
+import sbrf.hackaton.cit.domain.Route;
+import sbrf.hackaton.cit.domain.road.Road;
 
 import java.util.*;
 

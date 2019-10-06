@@ -4,8 +4,8 @@ import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import sbrf.hackaton.cit.domain.Atm;
 import sbrf.hackaton.cit.domain.Car;
-import sbrf.hackaton.cit.domain.Road;
 import sbrf.hackaton.cit.domain.Route;
+import sbrf.hackaton.cit.domain.road.Road;
 
 import java.util.Collection;
 import java.util.Set;
@@ -54,9 +54,32 @@ class GraphTest extends TestGraph {
                 System.out.println(rout);
             }
 
-           bestRoute = roadExplorer.getBestRouts().orElse(null);
+            bestRoute = roadExplorer.getBestRouts().orElse(null);
             System.out.println("best: " + bestRoute);
         }
 
     }
+
+    @Test
+    void lookingTwoWayGraph() {
+        Atm destinationPoint = new GraphBuilder(vx, exD).getRootVertex(0);
+        Car car = new Car(15, 10);
+        RoadExplorer roadExplorer = new RoadExplorer(destinationPoint, car);
+
+
+        roadExplorer.routeSearch(destinationPoint);
+        Collection<Route> allAvailableRouts = roadExplorer.getAllAvailableRouts();
+
+        Assert.assertEquals(4, allAvailableRouts.size());
+
+        for (Route rout : allAvailableRouts) {
+            System.out.println(rout);
+        }
+
+        Route bestRoute = roadExplorer.getBestRouts().orElse(null);
+        System.out.println("best: " + bestRoute);
+
+
+    }
+
 }

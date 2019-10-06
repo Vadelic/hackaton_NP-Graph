@@ -1,5 +1,7 @@
 package sbrf.hackaton.cit.domain;
 
+import sbrf.hackaton.cit.domain.road.Road;
+
 import java.util.*;
 
 /**
@@ -23,7 +25,7 @@ public class Atm {
     }
 
 
-    void addRoad(Road road) {
+    public void addRoad(Road road) {
         roads.add(road);
     }
 

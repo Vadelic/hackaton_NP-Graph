@@ -1,5 +1,7 @@
 package sbrf.hackaton.cit.domain;
 
+import sbrf.hackaton.cit.domain.road.Road;
+
 import java.util.LinkedList;
 import java.util.Objects;
 import java.util.StringJoiner;
