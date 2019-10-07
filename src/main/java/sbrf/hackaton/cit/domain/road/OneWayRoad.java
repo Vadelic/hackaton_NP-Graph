@@ -1,7 +1,7 @@
 package sbrf.hackaton.cit.domain.road;
 
 
-import sbrf.hackaton.cit.domain.Atm;
+import sbrf.hackaton.cit.domain.atm.Atm;
 
 import java.util.Objects;
 
@@ -11,13 +11,13 @@ import java.util.Objects;
 public class OneWayRoad extends TwoWayRoad {
 
 
-    public OneWayRoad(Atm from, Atm to, int lenL) {
+    public OneWayRoad(Atm from, Atm to, double lenL) {
         super(from, to, lenL);
     }
 
     @Override
     public String toString() {
-        return String.format("(%s)->%d->(%s)", getLeft(), getDistance(), getRight());
+        return String.format("(%s)->%.2f->(%s)", getLeft(), getDistance(), getRight());
     }
 
     @Override

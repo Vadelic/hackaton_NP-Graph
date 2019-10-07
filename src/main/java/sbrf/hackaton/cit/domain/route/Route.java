@@ -1,35 +1,34 @@
-package sbrf.hackaton.cit.domain;
+package sbrf.hackaton.cit.domain.route;
 
+import sbrf.hackaton.cit.domain.atm.Atm;
 import sbrf.hackaton.cit.domain.road.Road;
 
 import java.util.LinkedList;
 import java.util.Objects;
 import java.util.StringJoiner;
 
-public class Route{
+public class Route {
     final LinkedList<Atm> currentATMs = new LinkedList<>();
     final LinkedList<Road> currentRoads = new LinkedList<>();
 
 
-
-
-    int getRoadValue() {
+    public double getRoadValue() {
         return currentRoads.stream()
-                .map(Road::getDistance).mapToInt(Integer::intValue).sum();
+                .map(Road::getDistance).mapToDouble(Double::intValue).sum();
     }
 
 
-    int getAtmValue() {
-        return currentATMs.stream().distinct().filter(atm -> !atm.isVisited()).map(Atm::getMoney).mapToInt(Integer::intValue).sum();
+    public double getAtmValue() {
+        return currentATMs.stream().distinct().filter(atm -> !atm.isVisited()).map(Atm::getMoney).mapToDouble(Double::intValue).sum();
     }
 
-    void removeLastDestination() {
+    public void removeLastDestination() {
         currentATMs.removeLast();
         if (!currentRoads.isEmpty())
             currentRoads.removeLast();
     }
 
-    void addDestination(Road road, Atm atm) {
+    public void addDestination(Road road, Atm atm) {
         addRoad(road);
         addAtm(atm);
     }
@@ -43,19 +42,19 @@ public class Route{
         currentATMs.addLast(atm);
     }
 
-    int getCountPoint() {
+    public int getCountPoint() {
         return currentATMs.size();
     }
 
-    boolean containsAtm(Atm targetAtm) {
+    public boolean containsAtm(Atm targetAtm) {
         return currentATMs.contains(targetAtm);
     }
 
 
     public double getCost() {
-        int atmValue = getAtmValue();
-        int roadValue = getRoadValue();
-        return atmValue*1.0/roadValue;
+        double atmValue = getAtmValue();
+        double roadValue = getRoadValue();
+        return atmValue / roadValue;
     }
 
     @Override
@@ -86,12 +85,5 @@ public class Route{
         for (Atm atm : currentATMs) {
             atm.visit();
         }
-    }
-
-    public Route fix() {
-        Route route = new Route();
-        route.currentATMs.addAll(currentATMs);
-        route.currentRoads.addAll(currentRoads);
-        return route;
     }
 }

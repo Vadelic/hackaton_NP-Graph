@@ -1,9 +1,9 @@
 package sbrf.hackaton.cit.service;
 
 import org.junit.jupiter.api.Test;
-import sbrf.hackaton.cit.domain.Atm;
 import sbrf.hackaton.cit.domain.Car;
-import sbrf.hackaton.cit.domain.Route;
+import sbrf.hackaton.cit.domain.atm.Atm;
+import sbrf.hackaton.cit.domain.route.Route;
 import sbrf.hackaton.cit.graph.GraphBuilder;
 import sbrf.hackaton.cit.graph.TestGraph;
 

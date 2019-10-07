@@ -1,6 +1,7 @@
 package sbrf.hackaton.cit.graph;
 
-import sbrf.hackaton.cit.domain.Atm;
+import sbrf.hackaton.cit.domain.atm.Atm;
+import sbrf.hackaton.cit.domain.atm.AtmImpl;
 import sbrf.hackaton.cit.domain.road.OneWayRoad;
 import sbrf.hackaton.cit.domain.road.Road;
 import sbrf.hackaton.cit.domain.road.TwoWayRoad;
@@ -53,7 +54,7 @@ public class GraphBuilder {
     private Atm[] getVertex(int[] vx) {
         ArrayList<Atm> vertexes = new ArrayList<>();
         for (int value : vx) {
-            vertexes.add(new Atm(value));
+            vertexes.add(new AtmImpl(value));
         }
         return vertexes.toArray(new Atm[0]);
     }

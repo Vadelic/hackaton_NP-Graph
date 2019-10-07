@@ -1,7 +1,7 @@
 package sbrf.hackaton.cit.domain.road;
 
 
-import sbrf.hackaton.cit.domain.Atm;
+import sbrf.hackaton.cit.domain.atm.Atm;
 
 import java.util.Objects;
 
@@ -9,19 +9,19 @@ import java.util.Objects;
  * Created by Komyshenets on 25.09.2019.
  */
 public class TwoWayRoad extends Road {
-    private Integer value;
+    private double value;
 
-    public TwoWayRoad(Atm vertexA, Atm vertexB, int distance) {
-        super(vertexA, vertexB);
+    public TwoWayRoad(Atm from, Atm to, double distance) {
+        super(from, to);
         this.value = distance;
     }
 
     @Override
     public String toString() {
-        return String.format("(%s)-%d-(%s)", getLeft(), getDistance(), getRight());
+        return String.format("(%s)-%.2f-(%s)", getLeft(), getDistance(), getRight());
     }
 
-    public int getDistance() {
+    public double getDistance() {
         return value;
     }
 

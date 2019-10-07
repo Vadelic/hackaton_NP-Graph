@@ -1,6 +1,6 @@
 package sbrf.hackaton.cit.domain.road;
 
-import sbrf.hackaton.cit.domain.Atm;
+import sbrf.hackaton.cit.domain.atm.Atm;
 
 import java.util.Objects;
 
@@ -10,9 +10,9 @@ public abstract class Road {
     private Atm[] nodes = new Atm[2];
 
 
-    Road(Atm vertexA, Atm vertexB) {
+    Road(Atm from, Atm to) {
         index = ++count;
-        addAtm(vertexA, vertexB);
+        addAtm(from, to);
 
     }
 
@@ -23,7 +23,7 @@ public abstract class Road {
         nodes[1] = right;
     }
 
-    public abstract int getDistance();
+    public abstract double getDistance();
 
     public abstract Atm getTarget(Atm from);
 

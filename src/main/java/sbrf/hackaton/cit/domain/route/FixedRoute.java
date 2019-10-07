@@ -1,8 +1,8 @@
-package sbrf.hackaton.cit.domain;
+package sbrf.hackaton.cit.domain.route;
 
 public class FixedRoute extends Route {
-    final int atmVal;
-    final int roadVal;
+    private final double atmVal;
+    private final double roadVal;
 
     public FixedRoute(Route route) {
         currentATMs.addAll(route.currentATMs);
@@ -12,12 +12,12 @@ public class FixedRoute extends Route {
     }
 
     @Override
-    int getRoadValue() {
+    public double getRoadValue() {
         return roadVal;
     }
 
     @Override
-    int getAtmValue() {
+    public double getAtmValue() {
         return atmVal;
     }
 }

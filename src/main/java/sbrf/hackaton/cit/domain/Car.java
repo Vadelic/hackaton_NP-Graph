@@ -1,6 +1,9 @@
 package sbrf.hackaton.cit.domain;
 
+import sbrf.hackaton.cit.domain.atm.Atm;
 import sbrf.hackaton.cit.domain.road.Road;
+import sbrf.hackaton.cit.domain.route.FixedRoute;
+import sbrf.hackaton.cit.domain.route.Route;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -21,14 +24,12 @@ public class Car {
     }
 
     public FixedRoute fixRoute() {
-        //We arrived at destination
         return new FixedRoute(currentRoute);
     }
 
     public void goToPoint(Road road, Atm atm) {
         currentRoute.addDestination(road, atm);
     }
-
 
     public void removePointAndRoad() {
         currentRoute.removeLastDestination();
@@ -43,14 +44,14 @@ public class Car {
     }
 
     private boolean availablePoint(Atm targetAtm) {
-        int sum = currentRoute.getAtmValue();
+        double sum = currentRoute.getAtmValue();
         if (!currentRoute.containsAtm(targetAtm))
             sum += targetAtm.getMoney();
         return sum <= maximumMoney;
     }
 
     private boolean availableRoad(Road targetRoad) {
-        int usedTime = completeRoutes.stream().mapToInt(Route::getRoadValue).sum();
+        double usedTime = completeRoutes.stream().mapToDouble(Route::getRoadValue).sum();
         return currentRoute.getRoadValue() + targetRoad.getDistance() <= maximumTime - usedTime;
     }
 
