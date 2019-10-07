@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import sbrf.hackaton.cit.domain.Car;
 import sbrf.hackaton.cit.domain.atm.Atm;
 import sbrf.hackaton.cit.domain.road.Road;
+import sbrf.hackaton.cit.domain.route.FixedRoute;
 import sbrf.hackaton.cit.domain.route.Route;
 
 import java.util.Collection;
@@ -34,7 +35,7 @@ class GraphTest extends TestGraph {
 
 
         roadExplorer.routeSearch(destinationPoint);
-        Collection<Route> allAvailableRouts = roadExplorer.getAllAvailableRouts();
+        Collection<FixedRoute> allAvailableRouts = roadExplorer.getAllAvailableRouts();
 
         Assert.assertEquals(7, allAvailableRouts.size());
 
@@ -68,7 +69,7 @@ class GraphTest extends TestGraph {
 
 
         roadExplorer.routeSearch(destinationPoint);
-        Collection<Route> allAvailableRouts = roadExplorer.getAllAvailableRouts();
+        Collection<FixedRoute> allAvailableRouts = roadExplorer.getAllAvailableRouts();
 
         Assert.assertEquals(4, allAvailableRouts.size());
 

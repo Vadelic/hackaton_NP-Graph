@@ -4,7 +4,7 @@ import com.sun.istack.internal.Nullable;
 import sbrf.hackaton.cit.domain.Car;
 import sbrf.hackaton.cit.domain.atm.Atm;
 import sbrf.hackaton.cit.domain.road.Road;
-import sbrf.hackaton.cit.domain.route.Route;
+import sbrf.hackaton.cit.domain.route.FixedRoute;
 
 import java.util.*;
 
@@ -14,7 +14,7 @@ import java.util.*;
 public class RoadExplorer {
     private final Atm destinationPoint;
     private final Car car;
-    private final List<Route> fixedRoutes = new LinkedList<>();
+    private final List<FixedRoute> fixedRoutes = new LinkedList<>();
 
     public RoadExplorer(Atm destinationPoint, Car car) {
         this.destinationPoint = destinationPoint;
@@ -30,7 +30,7 @@ public class RoadExplorer {
         car.goToPoint(road, atm);
         if (!car.justStarted() && atm.equals(destinationPoint)) {
             //We arrived at destination
-            Route route = car.fixRoute();
+            FixedRoute route = car.fixRoute();
             fixedRoutes.add(route);
         } else {
             Map<Road, Atm> possibleRoutes = atm.getPossibleRoutes();
@@ -44,11 +44,12 @@ public class RoadExplorer {
         }
         car.removePointAndRoad();
     }
-    public List<Route> getAllAvailableRouts() {
+
+    List<FixedRoute> getAllAvailableRouts() {
         return fixedRoutes;
     }
 
-    public Optional<Route> getBestRouts() {
-        return fixedRoutes.stream().max(Comparator.comparingDouble(Route::getCost));
+    public Optional<FixedRoute> getBestRouts() {
+        return fixedRoutes.stream().max(Comparator.comparingDouble(FixedRoute::getCost));
     }
 }

@@ -10,7 +10,6 @@ public class AtmImpl extends Atm {
 
     public AtmImpl(double value) {
         this.value = value;
-
     }
 
     @Override

@@ -13,7 +13,7 @@ class NavigatorTest extends TestGraph {
     @Test
     public void roadBuilderTest() {
 
-        Atm point = new GraphBuilder(vx, ex).getRootVertex(0);
+        Atm point = new GraphBuilder(vx, exD).getRootVertex(0);
         Car car = new Car(15, 10);
         Navigator navigator = new Navigator();
         List<Route> routes = navigator.buildRoutes(point, point, car);
