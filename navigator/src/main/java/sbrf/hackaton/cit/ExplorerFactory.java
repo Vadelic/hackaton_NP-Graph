@@ -11,7 +11,7 @@ import java.util.List;
 
 public class ExplorerFactory {
     public static Explorer getRecursionExplorer(Atm destinationPoint, Car car) {
-        return getRecursionExplorer(Collections.singletonList(destinationPoint), car);
+        return new GraphRecursionExplorer(Collections.singletonList(destinationPoint), car);
     }
 
     public static Explorer getRecursionExplorer(List<Atm> destinationPoints, Car car) {
@@ -20,7 +20,7 @@ public class ExplorerFactory {
 
 
     public static Explorer getExplorer(Atm destinationPoint, Car car) {
-        return getExplorer(Collections.singletonList(destinationPoint), car);
+        return new GraphRecursionExplorer(Collections.singletonList(destinationPoint), car);
     }
 
     public static Explorer getExplorer(List<Atm> destinationPoints, Car car) {

@@ -13,14 +13,19 @@ public class Route {
      */
     public double getEdgesValue() {
         return edges.stream()
-                .map(Edge::getDistance).mapToDouble(Double::intValue).sum();
+                .mapToDouble(Edge::getDistance)
+                .sum();
     }
 
     /**
      * Получить общий вес вершин на маршруте
      */
     public double getVertexValue() {
-        return vertexes.stream().distinct().filter(atm -> !atm.isVisited()).map(Vertex::getValue).mapToDouble(Double::intValue).sum();
+        return vertexes.stream()
+                .distinct()
+                .filter(atm -> !atm.isVisited())
+                .mapToDouble(Vertex::getValue)
+                .sum();
     }
 
     void removeLastDestination() {
@@ -32,7 +37,6 @@ public class Route {
     void addDestination(Edge road, Vertex atm) {
         if (road != null)
             edges.addLast(road);
-
         vertexes.addLast(atm);
     }
 

@@ -31,31 +31,65 @@ class GraphBuilderTest extends TestGraph {
         for (Road edge : edges) {
             System.out.println(edge);
         }
+        Assert.assertEquals(8, edges.stream().mapToDouble(Road::getDistance).sum(), 0.01);
     }
 
     @Test
-    void looking() {
+    void lookingRecursionTwoWay() {
         Atm destinationPoint = new GraphBuilder(vertexes, edges).getRootVertex(0);
         Car car = new Car(15, 10);
         Explorer roadExplorer = ExplorerFactory.getRecursionExplorer(destinationPoint, car);
-
-
         roadExplorer.routeSearch(destinationPoint);
-        Collection<Route> allAvailableRouts = roadExplorer.getAllAvailableRouts();
 
+        Collection<Route> allAvailableRouts = roadExplorer.getAllAvailableRouts();
         Assert.assertEquals(7, allAvailableRouts.size());
 
         for (Route rout : allAvailableRouts) {
             System.out.println(rout);
         }
-
+        Assert.assertEquals(66, allAvailableRouts.stream().mapToDouble(Route::getEdgesValue).sum(), 0.01);
+        Assert.assertEquals(41, allAvailableRouts.stream().mapToDouble(Route::getVertexValue).sum(), 0.01);
     }
 
     @Test
-    void lookingTwoWayGraph() {
+    void lookingSimpleTwoWay() {
+        Atm destinationPoint = new GraphBuilder(vertexes, edges).getRootVertex(0);
+        Car car = new Car(15, 10);
+        Explorer roadExplorer = ExplorerFactory.getExplorer(destinationPoint, car);
+        roadExplorer.routeSearch(destinationPoint);
+
+        Collection<Route> allAvailableRouts = roadExplorer.getAllAvailableRouts();
+        Assert.assertEquals(7, allAvailableRouts.size());
+
+        for (Route rout : allAvailableRouts) {
+            System.out.println(rout);
+        }
+        Assert.assertEquals(66, allAvailableRouts.stream().mapToDouble(Route::getEdgesValue).sum(), 0.01);
+        Assert.assertEquals(41, allAvailableRouts.stream().mapToDouble(Route::getVertexValue).sum(), 0.01);
+    }
+
+    @Test
+    void lookingRecursionOneWayGraph() {
         Atm destinationPoint = new GraphBuilder(vertexes, directionEdges).getRootVertex(0);
         Car car = new Car(15, 10);
         Explorer roadExplorer = ExplorerFactory.getRecursionExplorer(destinationPoint, car);
+        roadExplorer.routeSearch(destinationPoint);
+
+        Collection<Route> allAvailableRouts = roadExplorer.getAllAvailableRouts();
+        Assert.assertEquals(4, allAvailableRouts.size());
+
+        for (Route rout : allAvailableRouts) {
+            System.out.println(rout);
+        }
+        Assert.assertEquals(33, allAvailableRouts.stream().mapToDouble(Route::getEdgesValue).sum(), 0.01);
+        Assert.assertEquals(23, allAvailableRouts.stream().mapToDouble(Route::getVertexValue).sum(), 0.01);
+    }
+
+    @Test
+    void lookingOneWayGraph() {
+        Atm destinationPoint = new GraphBuilder(vertexes, directionEdges).getRootVertex(0);
+        Car car = new Car(15, 10);
+        Explorer roadExplorer = ExplorerFactory.getExplorer(destinationPoint, car);
 
 
         roadExplorer.routeSearch(destinationPoint);
@@ -66,8 +100,7 @@ class GraphBuilderTest extends TestGraph {
         for (Route rout : allAvailableRouts) {
             System.out.println(rout);
         }
-
+        Assert.assertEquals(33, allAvailableRouts.stream().mapToDouble(Route::getEdgesValue).sum(), 0.01);
+        Assert.assertEquals(23, allAvailableRouts.stream().mapToDouble(Route::getVertexValue).sum(), 0.01);
     }
-
-
 }

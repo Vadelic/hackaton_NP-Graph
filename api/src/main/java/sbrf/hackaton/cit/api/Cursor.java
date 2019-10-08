@@ -23,9 +23,6 @@ public abstract class Cursor {
 
     /**
      * Вызывается при перемещении к точке
-     *
-     * @param road
-     * @param point
      */
     public void goToPoint(Edge road, Vertex point) {
         currentRoute.addDestination(road, point);
@@ -50,10 +47,7 @@ public abstract class Cursor {
 
 
     /**
-     * проверка может ли объект сместиться к указаной точке
-     *
-     * @param targetRoad
-     * @param targetPoint
+     * проверка может ли курсор сместиться к указаной точке
      */
     public boolean availableRoot(Edge targetRoad, Vertex targetPoint) {
         return availableRoad(targetRoad) && availablePoint(targetPoint);

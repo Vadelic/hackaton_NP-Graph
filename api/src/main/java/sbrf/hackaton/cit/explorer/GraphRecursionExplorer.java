@@ -16,7 +16,12 @@ public class GraphRecursionExplorer extends GraphExplorer {
         super(destinationPoints, cursor);
     }
 
-    protected void routeSearch(Edge road, Vertex point) {
+    public void routeSearch(Vertex startPoint) {
+        routes.clear();
+        routeSearch(null, startPoint);
+    }
+
+    private void routeSearch(Edge road, Vertex point) {
         cursor.goToPoint(road, point);
         if (!cursor.justStarted() && destinationPoint.contains(point)) {
             //We arrived at destination

@@ -9,13 +9,18 @@ import java.util.List;
 /**
  * Created by Komyshenets on 28.09.2019.
  */
-public class GraphExplorer extends ExplorerImpl implements Explorer {
+public class GraphExplorer extends ExplorerImpl {
 
     public GraphExplorer(List<? extends Vertex> destinationPoints, Cursor cursor) {
         super(destinationPoints, cursor);
     }
 
-    protected void routeSearch(Edge road, Vertex point) {
+    public void routeSearch(Vertex startPoint) {
+        routes.clear();
+        routeSearch(null, startPoint);
+    }
+
+    private void routeSearch(Edge road, Vertex point) {
         cursor.goToPoint(road, point);
         if (!cursor.justStarted() && destinationPoint.contains(point)) {
             routes.add(cursor.fixRoute());
