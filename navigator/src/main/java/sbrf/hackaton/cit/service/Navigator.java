@@ -5,7 +5,7 @@ import sbrf.hackaton.cit.api.Route;
 import sbrf.hackaton.cit.api.explorer.Explorer;
 import sbrf.hackaton.cit.domain.Atm;
 import sbrf.hackaton.cit.domain.Car;
-import sbrf.hackaton.cit.domain.route.DynamicRoute;
+import sbrf.hackaton.cit.domain.route.FixedRoute;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -20,7 +20,7 @@ public class Navigator {
      * @param car         автомобиль с ограничениями по значенияям рекбер и вершин
      * @return Список фиксированых маршрутов при которых автомобиль соберет максимум значений вершин
      */
-    public List<DynamicRoute> buildRoutes(Atm start, List<Atm> destination, Car car) {
+    public List<Route> buildRoutes(Atm start, List<Atm> destination, Car car) {
 
         Explorer roadExplorer = ExplorerFactory.getRecursionExplorer(destination, car);
         Object route;
@@ -28,15 +28,15 @@ public class Navigator {
             roadExplorer.routeSearch(start);
             List<Route> allAvailableRouts = roadExplorer.getAllAvailableRouts();
             route = getBestRouts(allAvailableRouts);
-            if (route instanceof DynamicRoute) {
-                car.visitRoute((DynamicRoute) route);
+            if (route instanceof FixedRoute) {
+                car.visitRoute((FixedRoute) route);
             }
 
         } while (route != null);
         return car.getCompleteRoutes();
     }
 
-    public List<DynamicRoute> buildRoutes(Atm start, Atm destination, Car car) {
+    public List<Route> buildRoutes(Atm start, Atm destination, Car car) {
         List<Atm> destination1 = Collections.singletonList(destination);
         return buildRoutes(start, destination1, car);
     }

@@ -1,24 +1,28 @@
 package sbrf.hackaton.cit.domain.route;
 
-public class FixedRoute extends DynamicRoute {
+import sbrf.hackaton.cit.api.Route;
+
+public class FixedRoute extends Route {
     private final double atmVal;
     private final double roadVal;
 
-    public FixedRoute(DynamicRoute route) {
-        this.currentATMs.addAll(route.currentATMs);
-        this.currentRoads.addAll(route.currentRoads);
+    public FixedRoute(Route route) {
+        this.vertexes.addAll(route.vertexes);
+        this.edges.addAll(route.edges);
 
-        atmVal = route.getAtmValue();
-        roadVal = route.getRoadValue();
+        atmVal = route.getVertexValue();
+        roadVal = route.getEdgesValue();
     }
 
     @Override
-    public double getRoadValue() {
+    public double getEdgesValue() {
         return roadVal;
     }
 
     @Override
-    public double getAtmValue() {
+    public double getVertexValue() {
         return atmVal;
     }
+
+
 }

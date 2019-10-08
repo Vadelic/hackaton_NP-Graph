@@ -63,12 +63,14 @@ public class Atm implements Vertex {
     }
 
 
-    public void visit() {
-        visit = true;
-    }
-
+    @Override
     public boolean isVisited() {
         return visit;
+    }
+
+    @Override
+    public void visit() {
+        visit = true;
     }
 
 
