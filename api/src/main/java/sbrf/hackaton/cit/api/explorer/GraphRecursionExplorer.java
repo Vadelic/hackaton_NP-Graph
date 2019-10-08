@@ -12,7 +12,7 @@ import java.util.Map;
  */
 public class GraphRecursionExplorer extends GraphExplorer {
 
-    public GraphRecursionExplorer(List<? extends Vertex> destinationPoints, Cursor<? extends Edge, ? extends Vertex> cursor) {
+    public GraphRecursionExplorer(List<? extends Vertex> destinationPoints, Cursor cursor) {
         super(destinationPoints, cursor);
     }
 
