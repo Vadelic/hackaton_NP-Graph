@@ -2,8 +2,9 @@ package sbrf.hackaton.cit.graph;
 
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
+import sbrf.hackaton.cit.ExplorerFactory;
 import sbrf.hackaton.cit.api.Route;
-import sbrf.hackaton.cit.api.explorer.GraphRecursionExplorer;
+import sbrf.hackaton.cit.api.explorer.Explorer;
 import sbrf.hackaton.cit.domain.Atm;
 import sbrf.hackaton.cit.domain.Car;
 import sbrf.hackaton.cit.domain.road.Road;
@@ -32,7 +33,8 @@ class GraphTest extends TestGraph {
     void looking() {
         Atm destinationPoint = new GraphBuilder(vertexes, edges).getRootVertex(0);
         Car car = new Car(15, 10);
-        GraphRecursionExplorer roadExplorer = new GraphRecursionExplorer(destinationPoint, car);
+        Explorer roadExplorer = ExplorerFactory.getRecursionExplorer(destinationPoint, car);
+
 
 
         roadExplorer.routeSearch(destinationPoint);
@@ -50,7 +52,7 @@ class GraphTest extends TestGraph {
     void lookingTwoWayGraph() {
         Atm destinationPoint = new GraphBuilder(vertexes, directionEdges).getRootVertex(0);
         Car car = new Car(15, 10);
-        GraphRecursionExplorer roadExplorer = new GraphRecursionExplorer(destinationPoint, car);
+        Explorer roadExplorer = ExplorerFactory.getRecursionExplorer(destinationPoint, car);
 
 
         roadExplorer.routeSearch(destinationPoint);

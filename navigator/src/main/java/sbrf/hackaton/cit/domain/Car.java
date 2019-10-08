@@ -1,7 +1,8 @@
 package sbrf.hackaton.cit.domain;
 
 import sbrf.hackaton.cit.api.Cursor;
-import sbrf.hackaton.cit.domain.road.Road;
+import sbrf.hackaton.cit.api.Edge;
+import sbrf.hackaton.cit.api.Vertex;
 import sbrf.hackaton.cit.domain.route.DynamicRoute;
 import sbrf.hackaton.cit.domain.route.FixedRoute;
 
@@ -11,7 +12,7 @@ import java.util.List;
 /**
  * Created by Komyshenets on 29.09.2019.
  */
-public class Car implements Cursor<Road, Atm> {
+public class Car implements Cursor {
     private final DynamicRoute currentRoute = new DynamicRoute();
 
     private final int maximumTime;
@@ -29,7 +30,7 @@ public class Car implements Cursor<Road, Atm> {
     }
 
     @Override
-    public void goToPoint(Road road, Atm atm) {
+    public void goToPoint(Edge road, Vertex atm) {
         currentRoute.addDestination(road, atm);
 
     }
@@ -48,18 +49,18 @@ public class Car implements Cursor<Road, Atm> {
 
     @Override
 
-    public boolean availableRoot(Road targetRoad, Atm targetAtm) {
+    public boolean availableRoot(Edge targetRoad, Vertex targetAtm) {
         return availableRoad(targetRoad) && availablePoint(targetAtm);
     }
 
-    private boolean availablePoint(Atm targetAtm) {
+    private boolean availablePoint(Vertex targetAtm) {
         double sum = currentRoute.getAtmValue();
         if (!currentRoute.containsAtm(targetAtm))
             sum += targetAtm.getValue();
         return sum <= maximumMoney;
     }
 
-    private boolean availableRoad(Road targetRoad) {
+    private boolean availableRoad(Edge targetRoad) {
         double usedTime = completeRoutes.stream().mapToDouble(DynamicRoute::getRoadValue).sum();
         return currentRoute.getRoadValue() + targetRoad.getDistance() <= maximumTime - usedTime;
     }

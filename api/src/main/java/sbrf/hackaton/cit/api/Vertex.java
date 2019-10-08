@@ -13,4 +13,8 @@ public interface Vertex {
      * Получить вес вершины
      */
     double getValue();
+
+    boolean isVisited();
+
+    void visit();
 }

@@ -1,6 +1,6 @@
 package sbrf.hackaton.cit.service;
 
-import sbrf.hackaton.cit.api.ExplorerFactory;
+import sbrf.hackaton.cit.ExplorerFactory;
 import sbrf.hackaton.cit.api.Route;
 import sbrf.hackaton.cit.api.explorer.Explorer;
 import sbrf.hackaton.cit.domain.Atm;

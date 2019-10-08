@@ -1,25 +1,26 @@
 package sbrf.hackaton.cit.domain.route;
 
-import sbrf.hackaton.cit.domain.Atm;
-import sbrf.hackaton.cit.domain.road.Road;
+import sbrf.hackaton.cit.api.Edge;
+import sbrf.hackaton.cit.api.Route;
+import sbrf.hackaton.cit.api.Vertex;
 
 import java.util.LinkedList;
 import java.util.Objects;
 import java.util.StringJoiner;
 
-public class DynamicRoute implements sbrf.hackaton.cit.api.Route {
-    final LinkedList<Atm> currentATMs = new LinkedList<>();
-    final LinkedList<Road> currentRoads = new LinkedList<>();
+public class DynamicRoute implements Route {
+    final LinkedList<Vertex> currentATMs = new LinkedList<>();
+    final LinkedList<Edge> currentRoads = new LinkedList<>();
 
 
     public double getRoadValue() {
         return currentRoads.stream()
-                .map(Road::getDistance).mapToDouble(Double::intValue).sum();
+                .map(Edge::getDistance).mapToDouble(Double::intValue).sum();
     }
 
 
     public double getAtmValue() {
-        return currentATMs.stream().distinct().filter(atm -> !atm.isVisited()).map(Atm::getValue).mapToDouble(Double::intValue).sum();
+        return currentATMs.stream().distinct().filter(atm -> !atm.isVisited()).map(Vertex::getValue).mapToDouble(Double::intValue).sum();
     }
 
     public void removeLastDestination() {
@@ -28,17 +29,17 @@ public class DynamicRoute implements sbrf.hackaton.cit.api.Route {
             currentRoads.removeLast();
     }
 
-    public void addDestination(Road road, Atm atm) {
+    public void addDestination(Edge road, Vertex atm) {
         addRoad(road);
         addAtm(atm);
     }
 
-    private void addRoad(Road road) {
+    private void addRoad(Edge road) {
         if (road != null)
             currentRoads.addLast(road);
     }
 
-    private void addAtm(Atm atm) {
+    private void addAtm(Vertex atm) {
         currentATMs.addLast(atm);
     }
 
@@ -46,7 +47,7 @@ public class DynamicRoute implements sbrf.hackaton.cit.api.Route {
         return currentATMs.size();
     }
 
-    public boolean containsAtm(Atm targetAtm) {
+    public boolean containsAtm(Vertex targetAtm) {
         return currentATMs.contains(targetAtm);
     }
 
@@ -76,7 +77,7 @@ public class DynamicRoute implements sbrf.hackaton.cit.api.Route {
     }
 
     public void visit() {
-        for (Atm atm : currentATMs) {
+        for (Vertex atm : currentATMs) {
             atm.visit();
         }
     }

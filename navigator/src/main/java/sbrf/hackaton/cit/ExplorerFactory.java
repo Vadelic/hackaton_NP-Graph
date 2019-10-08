@@ -1,5 +1,8 @@
-package sbrf.hackaton.cit.api;
+package sbrf.hackaton.cit;
 
+import sbrf.hackaton.cit.api.Cursor;
+import sbrf.hackaton.cit.api.Edge;
+import sbrf.hackaton.cit.api.Vertex;
 import sbrf.hackaton.cit.api.explorer.Explorer;
 import sbrf.hackaton.cit.api.explorer.GraphExplorer;
 import sbrf.hackaton.cit.api.explorer.GraphRecursionExplorer;
@@ -17,11 +20,11 @@ public class ExplorerFactory {
     }
 
 
-    public static Explorer getExplorer(Vertex destinationPoint, Cursor<? extends Edge, ? extends Vertex> cursor) {
+    public static Explorer getExplorer(Vertex destinationPoint, Cursor<Edge, Vertex> cursor) {
         return getExplorer(Collections.singletonList(destinationPoint), cursor);
     }
 
-    public static Explorer getExplorer(List<? extends Vertex> destinationPoints, Cursor<? extends Edge, ? extends Vertex> cursor) {
+    public static Explorer getExplorer(List<? extends Vertex> destinationPoints, Cursor<Edge, Vertex> cursor) {
         return new GraphExplorer(destinationPoints, cursor);
     }
 }

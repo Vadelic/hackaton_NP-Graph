@@ -1,6 +1,6 @@
 package sbrf.hackaton.cit.api;
 
-public interface Cursor<E extends Edge, V extends Vertex> {
+public interface Cursor {
     /**
      * Создает объект состояния в момент вызова
      */
@@ -8,8 +8,10 @@ public interface Cursor<E extends Edge, V extends Vertex> {
 
     /**
      * Вызывается при перемещении к точке
+     * @param road
+     * @param point
      */
-    void goToPoint(E road, V point);
+    void goToPoint(Edge road, Vertex point);
 
     /**
      * Вызывается когда смещается на предыдущую позицию
@@ -25,8 +27,10 @@ public interface Cursor<E extends Edge, V extends Vertex> {
 
     /**
      * проверка может ли объект сместиться к указаной точке
+     * @param targetRoad
+     * @param targetPoint
      */
-    boolean availableRoot(E targetRoad, V targetPoint);
+    boolean availableRoot(Edge targetRoad, Vertex targetPoint);
 
 
 }
