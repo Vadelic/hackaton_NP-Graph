@@ -2,9 +2,7 @@ package sbrf.hackaton.cit.service;
 
 
 import sbrf.hackaton.cit.domain.Atm;
-import sbrf.hackaton.cit.domain.road.OneWayRoad;
-import sbrf.hackaton.cit.domain.road.Road;
-import sbrf.hackaton.cit.domain.road.TwoWayRoad;
+import sbrf.hackaton.cit.domain.Road;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -35,8 +33,12 @@ public class GraphBuilder {
      * @param edges Массив с весами ребер
      */
     public void updateEdges(double[][] edges) {
-        binderVertexes(edges, vertexes);
+        for (Atm vertex : vertexes) {
+            vertex.cleanRoads();
+        }
+        this.edges = binderVertexes(edges, vertexes);
     }
+
 
     /**
      * Взять вершину по порядковому номеру
@@ -69,16 +71,20 @@ public class GraphBuilder {
         return roads.toArray(new Road[0]);
     }
 
-    private Road createRoad(double lenL, double lenR, Atm vertexA, Atm vertexB) {
-
+    private Road createRoad(double lenR, double lenL, Atm vertexA, Atm vertexB) {
+        Road road;
         if (lenL == lenR) {
-            return new TwoWayRoad(vertexA, vertexB, lenL);
-        } else if (lenL != 0) {
-            return new OneWayRoad(vertexB, vertexA, lenL);
+            road = new Road(vertexA, vertexB, lenL);
+            vertexA.addRoad(road);
+            vertexB.addRoad(road);
+        } else if (lenL == 0) {
+            road = new Road(vertexA, vertexB, lenR);
+            vertexA.addRoad(road);
         } else {
-            return new OneWayRoad(vertexA, vertexB, lenR);
+            road = new Road(vertexA, vertexB, lenL);
+            vertexB.addRoad(road);
         }
-
+        return road;
     }
 
     @Override

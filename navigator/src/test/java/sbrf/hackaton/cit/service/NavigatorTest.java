@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 import sbrf.hackaton.cit.api.Route;
 import sbrf.hackaton.cit.domain.Atm;
 import sbrf.hackaton.cit.domain.Car;
-import sbrf.hackaton.cit.graph.TestGraph;
 
 import java.util.List;
 

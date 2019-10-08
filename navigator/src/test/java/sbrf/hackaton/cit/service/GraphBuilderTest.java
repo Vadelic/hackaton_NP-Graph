@@ -1,14 +1,13 @@
-package sbrf.hackaton.cit.graph;
+package sbrf.hackaton.cit.service;
 
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import sbrf.hackaton.cit.ExplorerFactory;
 import sbrf.hackaton.cit.api.Route;
-import sbrf.hackaton.cit.api.explorer.Explorer;
 import sbrf.hackaton.cit.domain.Atm;
 import sbrf.hackaton.cit.domain.Car;
-import sbrf.hackaton.cit.domain.road.Road;
-import sbrf.hackaton.cit.service.GraphBuilder;
+import sbrf.hackaton.cit.domain.Road;
+import sbrf.hackaton.cit.explorer.Explorer;
 
 import java.util.Collection;
 import java.util.Set;
@@ -16,17 +15,22 @@ import java.util.Set;
 /**
  * Created by Komyshenets on 28.09.2019.
  */
-class GraphTest extends TestGraph {
+class GraphBuilderTest extends TestGraph {
 
     @Test
     void Constructor() {
-        GraphBuilder graph = new GraphBuilder(vertexes, edges);
+        GraphBuilder graph = new GraphBuilder(vertexes, directionEdges);
         System.out.println(graph);
 
         Atm rootVertex = graph.getRootVertex(0);
         System.out.println(rootVertex);
+        Assert.assertEquals(graph.getRootVertex(0).getPossibleRoutes().size(), 3);
+        Assert.assertEquals(graph.getRootVertex(1).getPossibleRoutes().size(), 2);
+
         Set<Road> edges = rootVertex.getRoads();
-        System.out.println(edges);
+        for (Road edge : edges) {
+            System.out.println(edge);
+        }
     }
 
     @Test
@@ -34,7 +38,6 @@ class GraphTest extends TestGraph {
         Atm destinationPoint = new GraphBuilder(vertexes, edges).getRootVertex(0);
         Car car = new Car(15, 10);
         Explorer roadExplorer = ExplorerFactory.getRecursionExplorer(destinationPoint, car);
-
 
 
         roadExplorer.routeSearch(destinationPoint);

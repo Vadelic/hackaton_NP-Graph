@@ -2,10 +2,10 @@ package sbrf.hackaton.cit.service;
 
 import sbrf.hackaton.cit.ExplorerFactory;
 import sbrf.hackaton.cit.api.Route;
-import sbrf.hackaton.cit.api.explorer.Explorer;
 import sbrf.hackaton.cit.domain.Atm;
 import sbrf.hackaton.cit.domain.Car;
 import sbrf.hackaton.cit.domain.FixedRoute;
+import sbrf.hackaton.cit.explorer.Explorer;
 
 import java.util.Collections;
 import java.util.Comparator;

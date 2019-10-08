@@ -1,8 +1,8 @@
-package sbrf.hackaton.cit.graph;
+package sbrf.hackaton.cit.service;
 
-public class TestGraph {
-    protected static double[] vertexes = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-    protected static double[][] edges = {
+abstract class TestGraph {
+    static double[] vertexes = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+    static double[][] edges = {
             {0, 4, 3, 1, 0, 0, 0, 0, 0, 0},
             {4, 0, 0, 6, 3, 0, 0, 0, 0, 0},
             {3, 0, 0, 0, 10, 0, 0, 0, 0, 0},
@@ -14,7 +14,7 @@ public class TestGraph {
             {0, 0, 0, 0, 0, 0, 1, 6, 0, 0},
             {0, 0, 0, 0, 0, 0, 0, 3, 0, 0}
     };
-    protected static double[][] directionEdges = {
+    static double[][] directionEdges = {
             {0, 4, 3, 1, 0, 0, 0, 0, 0, 0},
             {0, 0, 0, 6, 3, 0, 0, 0, 0, 0},
             {3, 0, 0, 0, 10, 0, 0, 0, 0, 0},

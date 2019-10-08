@@ -1,19 +1,18 @@
-package sbrf.hackaton.cit.domain.road;
+package sbrf.hackaton.cit.domain;
 
 
 import sbrf.hackaton.cit.api.Edge;
-import sbrf.hackaton.cit.domain.Atm;
 
 import java.util.Objects;
 
-public abstract class Road implements Edge {
+public class Road implements Edge {
     private static int count = 0;
     private final int index;
     private Atm[] nodes = new Atm[2];
 
     private final double value;
 
-    Road(Atm from, Atm to, double distance) {
+    public Road(Atm from, Atm to, double distance) {
         index = ++count;
         value = distance;
         addAtm(from, to);
@@ -21,17 +20,16 @@ public abstract class Road implements Edge {
     }
 
     private void addAtm(Atm left, Atm right) {
-        left.addRoad(this);
         nodes[0] = left;
-        right.addRoad(this);
+
         nodes[1] = right;
     }
 
-    Atm getLeft() {
+    private Atm getFrom() {
         return nodes[0];
     }
 
-    Atm getRight() {
+    private Atm getTo() {
         return nodes[1];
     }
 
@@ -39,7 +37,17 @@ public abstract class Road implements Edge {
         return value;
     }
 
-    public abstract Atm getTarget(Atm atm);
+    @Override
+    public String toString() {
+        return String.format("(%s)-%.2f-(%s)", getFrom(), getDistance(), getTo());
+    }
+
+
+    Atm getTarget(Atm from) {
+        if (!Objects.equals(from, getFrom())) return getFrom();
+        if (!Objects.equals(from, getTo())) return getTo();
+        return null;
+    }
 
     @Override
     public boolean equals(Object o) {

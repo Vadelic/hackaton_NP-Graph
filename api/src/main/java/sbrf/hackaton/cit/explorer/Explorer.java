@@ -1,4 +1,4 @@
-package sbrf.hackaton.cit.api.explorer;
+package sbrf.hackaton.cit.explorer;
 
 import sbrf.hackaton.cit.api.Route;
 import sbrf.hackaton.cit.api.Vertex;

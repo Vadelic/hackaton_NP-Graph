@@ -2,7 +2,6 @@ package sbrf.hackaton.cit.domain;
 
 
 import sbrf.hackaton.cit.api.Vertex;
-import sbrf.hackaton.cit.domain.road.Road;
 
 import java.util.*;
 
@@ -74,4 +73,7 @@ public class Atm implements Vertex {
     }
 
 
+    public void cleanRoads() {
+        roads.clear();
+    }
 }
