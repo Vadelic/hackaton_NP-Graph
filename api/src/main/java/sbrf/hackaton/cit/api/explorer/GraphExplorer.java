@@ -5,7 +5,6 @@ import sbrf.hackaton.cit.api.Edge;
 import sbrf.hackaton.cit.api.Route;
 import sbrf.hackaton.cit.api.Vertex;
 
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -14,44 +13,39 @@ import java.util.List;
  */
 public class GraphExplorer implements Explorer {
     final List<? extends Vertex> destinationPoint;
-    final Cursor car;
-    final List<Route> fixedRoutes = new LinkedList<>();
-
-    public GraphExplorer(Vertex destinationPoint, Cursor car) {
-        this.destinationPoint = Collections.singletonList(destinationPoint);
-        this.car = car;
-    }
+    final Cursor cursor;
+    final List<Route> routes = new LinkedList<>();
 
     public GraphExplorer(List<? extends Vertex> destinationPoints, Cursor cursor) {
         this.destinationPoint = destinationPoints;
-        this.car = cursor;
+        this.cursor = cursor;
     }
 
     @Override
     public void routeSearch(Vertex startPoint) {
-        fixedRoutes.clear();
+        routes.clear();
         routeSearch(null, startPoint);
     }
 
     private void routeSearch(Edge road, Vertex point) {
-        car.goToPoint(road, point);
-        if (!car.justStarted() && destinationPoint.contains(point)) {
+        cursor.goToPoint(road, point);
+        if (!cursor.justStarted() && destinationPoint.contains(point)) {
             //We arrived at destination
-            fixedRoutes.add(car.fixRoute());
+            routes.add(cursor.fixRoute());
         } else {
             point.getPossibleRoutes().forEach((targetRoad, targetAtm) -> {
-                if (car.availableRoot(targetRoad, targetAtm)) {
+                if (cursor.availableRoot(targetRoad, targetAtm)) {
                     routeSearch(targetRoad, targetAtm);
                 }
             });
         }
-        car.removePointAndRoad();
+        cursor.removePointAndRoad();
     }
 
 
     @Override
     public List<Route> getAllAvailableRouts() {
-        return fixedRoutes;
+        return routes;
     }
 
 }

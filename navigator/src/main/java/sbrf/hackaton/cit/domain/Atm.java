@@ -18,8 +18,8 @@ public class Atm implements Vertex {
         index = ++count;
     }
 
-
-    public double getMoney() {
+    @Override
+    public double getValue() {
         return value;
     }
 

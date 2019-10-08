@@ -19,7 +19,7 @@ public class DynamicRoute implements sbrf.hackaton.cit.api.Route {
 
 
     public double getAtmValue() {
-        return currentATMs.stream().distinct().filter(atm -> !atm.isVisited()).map(Atm::getMoney).mapToDouble(Double::intValue).sum();
+        return currentATMs.stream().distinct().filter(atm -> !atm.isVisited()).map(Atm::getValue).mapToDouble(Double::intValue).sum();
     }
 
     public void removeLastDestination() {
@@ -50,12 +50,6 @@ public class DynamicRoute implements sbrf.hackaton.cit.api.Route {
         return currentATMs.contains(targetAtm);
     }
 
-
-    public double getCost() {
-        double atmValue = getAtmValue();
-        double roadValue = getRoadValue();
-        return atmValue / roadValue;
-    }
 
     @Override
     public boolean equals(Object o) {

@@ -1,7 +1,8 @@
 package sbrf.hackaton.cit.service;
 
+import sbrf.hackaton.cit.api.ExplorerFactory;
 import sbrf.hackaton.cit.api.Route;
-import sbrf.hackaton.cit.api.explorer.GraphRecursionExplorer;
+import sbrf.hackaton.cit.api.explorer.Explorer;
 import sbrf.hackaton.cit.domain.Atm;
 import sbrf.hackaton.cit.domain.Car;
 import sbrf.hackaton.cit.domain.route.DynamicRoute;
@@ -21,7 +22,7 @@ public class Navigator {
      */
     public List<DynamicRoute> buildRoutes(Atm start, List<Atm> destination, Car car) {
 
-        GraphRecursionExplorer roadExplorer = new GraphRecursionExplorer(destination, car);
+        Explorer roadExplorer = ExplorerFactory.getRecursionExplorer(destination, car);
         Object route;
         do {
             roadExplorer.routeSearch(start);

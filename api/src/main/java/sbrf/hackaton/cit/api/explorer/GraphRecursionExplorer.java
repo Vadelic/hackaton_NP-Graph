@@ -12,31 +12,26 @@ import java.util.Map;
  */
 public class GraphRecursionExplorer extends GraphExplorer {
 
-
-    public GraphRecursionExplorer(Vertex destinationPoint, Cursor car) {
-        super(destinationPoint, car);
-    }
-
     public GraphRecursionExplorer(List<? extends Vertex> destinationPoints, Cursor cursor) {
         super(destinationPoints, cursor);
     }
 
     private void routeSearch(Edge road, Vertex point) {
-        car.goToPoint(road, point);
-        if (!car.justStarted() && destinationPoint.contains(point)) {
+        cursor.goToPoint(road, point);
+        if (!cursor.justStarted() && destinationPoint.contains(point)) {
             //We arrived at destination
-            fixedRoutes.add(car.fixRoute());
+            routes.add(cursor.fixRoute());
         } else {
             Map<? extends Edge, ? extends Vertex> possibleRoutes = point.getPossibleRoutes();
             for (Map.Entry<? extends Edge, ? extends Vertex> entry : possibleRoutes.entrySet()) {
                 Vertex targetAtm = entry.getValue();
                 Edge targetRoad = entry.getKey();
-                if (car.availableRoot(targetRoad, targetAtm)) {
+                if (cursor.availableRoot(targetRoad, targetAtm)) {
                     routeSearch(targetRoad, targetAtm);
                 }
             }
         }
-        car.removePointAndRoad();
+        cursor.removePointAndRoad();
     }
 
 

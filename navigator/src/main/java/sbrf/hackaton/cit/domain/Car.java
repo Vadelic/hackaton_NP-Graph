@@ -55,7 +55,7 @@ public class Car implements Cursor<Road, Atm> {
     private boolean availablePoint(Atm targetAtm) {
         double sum = currentRoute.getAtmValue();
         if (!currentRoute.containsAtm(targetAtm))
-            sum += targetAtm.getMoney();
+            sum += targetAtm.getValue();
         return sum <= maximumMoney;
     }
 

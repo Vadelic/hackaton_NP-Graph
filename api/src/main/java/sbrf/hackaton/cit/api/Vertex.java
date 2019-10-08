@@ -9,4 +9,8 @@ public interface Vertex {
      */
     Map<? extends Edge, ? extends Vertex> getPossibleRoutes();
 
+    /**
+     * Получить вес вершины
+     */
+    double getValue();
 }
