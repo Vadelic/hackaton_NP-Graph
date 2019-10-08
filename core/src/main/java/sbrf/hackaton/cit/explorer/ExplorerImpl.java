@@ -17,8 +17,4 @@ public abstract class ExplorerImpl implements Explorer {
         this.cursor = cursor;
     }
 
-    @Override
-    public List<Route> getAllAvailableRouts() {
-        return routes;
-    }
 }

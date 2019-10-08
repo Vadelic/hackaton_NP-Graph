@@ -2,6 +2,7 @@ package sbrf.hackaton.cit.explorer;
 
 import sbrf.hackaton.cit.api.Cursor;
 import sbrf.hackaton.cit.api.Edge;
+import sbrf.hackaton.cit.api.Route;
 import sbrf.hackaton.cit.api.Vertex;
 
 import java.util.List;
@@ -10,21 +11,22 @@ import java.util.Map;
 /**
  * Created by Komyshenets on 28.09.2019.
  */
-public class GraphRecursionExplorer extends GraphExplorer {
+public class DfsExplorer extends DfsStackExplorer {
 
-    public GraphRecursionExplorer(List<? extends Vertex> destinationPoints, Cursor cursor) {
+    public DfsExplorer(List<? extends Vertex> destinationPoints, Cursor cursor) {
         super(destinationPoints, cursor);
     }
 
-    public void routeSearch(Vertex startPoint) {
+    @Override
+    public List<Route> routeSearch(Vertex startPoint) {
         routes.clear();
         routeSearch(null, startPoint);
+        return routes;
     }
 
     private void routeSearch(Edge road, Vertex point) {
         cursor.goToPoint(road, point);
         if (!cursor.justStarted() && destinationPoint.contains(point)) {
-            //We arrived at destination
             routes.add(cursor.fixRoute());
         } else {
             Map<? extends Edge, ? extends Vertex> possibleRoutes = point.getPossibleRoutes();

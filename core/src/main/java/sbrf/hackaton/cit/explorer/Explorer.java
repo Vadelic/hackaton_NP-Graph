@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface Explorer {
 
-    void routeSearch(Vertex startPoint);
+    List<Route> routeSearch(Vertex startPoint);
 
-    List<Route> getAllAvailableRouts();
+
 }
