@@ -11,9 +11,11 @@ public abstract class Road implements Edge {
     private final int index;
     private Atm[] nodes = new Atm[2];
 
+    private final double value;
 
-    Road(Atm from, Atm to) {
+    Road(Atm from, Atm to, double distance) {
         index = ++count;
+        value = distance;
         addAtm(from, to);
 
     }
@@ -33,6 +35,12 @@ public abstract class Road implements Edge {
         return nodes[1];
     }
 
+    public double getDistance() {
+        return value;
+    }
+
+    public abstract Atm getTarget(Atm atm);
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -46,7 +54,4 @@ public abstract class Road implements Edge {
         return Objects.hash(index);
     }
 
-    public abstract Atm getTarget(Atm atm);
-
-    public abstract double getDistance();
 }

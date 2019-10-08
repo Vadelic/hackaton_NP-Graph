@@ -5,7 +5,7 @@ import sbrf.hackaton.cit.api.Route;
 import sbrf.hackaton.cit.api.explorer.Explorer;
 import sbrf.hackaton.cit.domain.Atm;
 import sbrf.hackaton.cit.domain.Car;
-import sbrf.hackaton.cit.domain.route.FixedRoute;
+import sbrf.hackaton.cit.domain.FixedRoute;
 
 import java.util.Collections;
 import java.util.Comparator;

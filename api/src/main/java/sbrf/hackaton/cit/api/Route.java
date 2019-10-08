@@ -64,9 +64,9 @@ public class Route {
 
         return new StringJoiner(", ", Route.class.getSimpleName() + "[", "]")
                 .add("points=" + vertexes)
-                .add("atm Value= " + getVertexValue())
-                .add("road Value= " + getEdgesValue())
-                .add("k=" + getCost())
+                .add("vertex:" + getVertexValue())
+                .add("edge:" + getEdgesValue())
+                .add("cost:" + getCost())
                 .toString();
     }
 

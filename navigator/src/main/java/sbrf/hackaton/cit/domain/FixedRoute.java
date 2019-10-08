@@ -1,4 +1,4 @@
-package sbrf.hackaton.cit.domain.route;
+package sbrf.hackaton.cit.domain;
 
 import sbrf.hackaton.cit.api.Route;
 

@@ -1,7 +1,6 @@
 package sbrf.hackaton.cit.domain;
 
 import sbrf.hackaton.cit.api.Cursor;
-import sbrf.hackaton.cit.domain.route.FixedRoute;
 
 /**
  * Created by Komyshenets on 29.09.2019.

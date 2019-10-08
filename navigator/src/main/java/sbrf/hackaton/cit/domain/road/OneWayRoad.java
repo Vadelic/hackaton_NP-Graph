@@ -8,7 +8,7 @@ import java.util.Objects;
 /**
  * Created by Komyshenets on 25.09.2019.
  */
-public class OneWayRoad extends TwoWayRoad {
+public class OneWayRoad extends Road {
 
 
     public OneWayRoad(Atm from, Atm to, double lenL) {
