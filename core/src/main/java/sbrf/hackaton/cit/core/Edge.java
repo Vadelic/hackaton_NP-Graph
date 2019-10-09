@@ -1,4 +1,4 @@
-package sbrf.hackaton.cit.api;
+package sbrf.hackaton.cit.core;
 
 
 public interface Edge {

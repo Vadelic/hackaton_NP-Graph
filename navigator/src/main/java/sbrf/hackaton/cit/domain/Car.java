@@ -1,6 +1,6 @@
 package sbrf.hackaton.cit.domain;
 
-import sbrf.hackaton.cit.api.Cursor;
+import sbrf.hackaton.cit.core.Cursor;
 
 /**
  * Created by Komyshenets on 29.09.2019.

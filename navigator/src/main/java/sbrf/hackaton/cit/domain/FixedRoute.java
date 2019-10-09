@@ -1,6 +1,6 @@
 package sbrf.hackaton.cit.domain;
 
-import sbrf.hackaton.cit.api.Route;
+import sbrf.hackaton.cit.core.Route;
 
 public class FixedRoute extends Route {
     private final double atmVal;

@@ -1,4 +1,4 @@
-package sbrf.hackaton.cit.service;
+package sbrf.hackaton.cit;
 
 
 import sbrf.hackaton.cit.domain.Atm;
@@ -12,7 +12,7 @@ import java.util.StringJoiner;
 /**
  * Created by Komyshenets on 25.09.2019.
  */
-public class GraphBuilder {
+public class GraphContext {
     private Atm[] vertexes;
     private Road[] edges;
 
@@ -22,7 +22,7 @@ public class GraphBuilder {
      * @param vertex Массив с весами вершин
      * @param edges  Массив с весами ребер
      */
-    public GraphBuilder(double[] vertex, double[][] edges) {
+    public GraphContext(double[] vertex, double[][] edges) {
         this.vertexes = createVertex(vertex);
         this.edges = binderVertexes(edges, vertexes);
     }
@@ -33,12 +33,8 @@ public class GraphBuilder {
      * @param edges Массив с весами ребер
      */
     public void updateEdges(double[][] edges) {
-        for (Atm vertex : vertexes) {
-            vertex.cleanRoads();
-        }
         this.edges = binderVertexes(edges, vertexes);
     }
-
 
     /**
      * Взять вершину по порядковому номеру
@@ -89,7 +85,7 @@ public class GraphBuilder {
 
     @Override
     public String toString() {
-        return new StringJoiner(", ", GraphBuilder.class.getSimpleName() + "[", "]")
+        return new StringJoiner(", ", GraphContext.class.getSimpleName() + "[", "]")
                 .add("\nvertexes=" + Arrays.toString(vertexes))
                 .add("\nedges=" + Arrays.toString(edges))
                 .toString();

@@ -3,7 +3,8 @@ package sbrf.hackaton.cit.service;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import sbrf.hackaton.cit.ExplorerFactory;
-import sbrf.hackaton.cit.api.Route;
+import sbrf.hackaton.cit.GraphContext;
+import sbrf.hackaton.cit.core.Route;
 import sbrf.hackaton.cit.domain.Atm;
 import sbrf.hackaton.cit.domain.Car;
 import sbrf.hackaton.cit.domain.Road;
@@ -19,7 +20,7 @@ class GraphBuilderTest extends TestGraph {
 
     @Test
     void Constructor() {
-        GraphBuilder graph = new GraphBuilder(vertexes, directionEdges);
+        GraphContext graph = new GraphContext(vertexes, directionEdges);
         System.out.println(graph);
 
         Atm rootVertex = graph.getRootVertex(0);
@@ -36,7 +37,7 @@ class GraphBuilderTest extends TestGraph {
 
     @Test
     void lookingRecursionTwoWay() {
-        Atm destinationPoint = new GraphBuilder(vertexes, edges).getRootVertex(0);
+        Atm destinationPoint = new GraphContext(vertexes, edges).getRootVertex(0);
         Car car = new Car(15, 10);
         Explorer roadExplorer = ExplorerFactory.getRecursionExplorer(destinationPoint, car);
         roadExplorer.routeSearch(destinationPoint);
@@ -53,7 +54,7 @@ class GraphBuilderTest extends TestGraph {
 
     @Test
     void lookingSimpleTwoWay() {
-        Atm destinationPoint = new GraphBuilder(vertexes, edges).getRootVertex(0);
+        Atm destinationPoint = new GraphContext(vertexes, edges).getRootVertex(0);
         Car car = new Car(15, 10);
         Explorer roadExplorer = ExplorerFactory.getExplorer(destinationPoint, car);
         roadExplorer.routeSearch(destinationPoint);
@@ -70,7 +71,7 @@ class GraphBuilderTest extends TestGraph {
 
     @Test
     void lookingRecursionOneWayGraph() {
-        Atm destinationPoint = new GraphBuilder(vertexes, directionEdges).getRootVertex(0);
+        Atm destinationPoint = new GraphContext(vertexes, directionEdges).getRootVertex(0);
         Car car = new Car(15, 10);
         Explorer roadExplorer = ExplorerFactory.getRecursionExplorer(destinationPoint, car);
         roadExplorer.routeSearch(destinationPoint);
@@ -87,7 +88,7 @@ class GraphBuilderTest extends TestGraph {
 
     @Test
     void lookingOneWayGraph() {
-        Atm destinationPoint = new GraphBuilder(vertexes, directionEdges).getRootVertex(0);
+        Atm destinationPoint = new GraphContext(vertexes, directionEdges).getRootVertex(0);
         Car car = new Car(15, 10);
         Explorer roadExplorer = ExplorerFactory.getExplorer(destinationPoint, car);
 

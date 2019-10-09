@@ -1,7 +1,7 @@
 package sbrf.hackaton.cit.explorer;
 
-import sbrf.hackaton.cit.api.Route;
-import sbrf.hackaton.cit.api.Vertex;
+import sbrf.hackaton.cit.core.Route;
+import sbrf.hackaton.cit.core.Vertex;
 
 import java.util.List;
 

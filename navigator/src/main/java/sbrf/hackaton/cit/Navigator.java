@@ -1,7 +1,6 @@
-package sbrf.hackaton.cit.service;
+package sbrf.hackaton.cit;
 
-import sbrf.hackaton.cit.ExplorerFactory;
-import sbrf.hackaton.cit.api.Route;
+import sbrf.hackaton.cit.core.Route;
 import sbrf.hackaton.cit.domain.Atm;
 import sbrf.hackaton.cit.domain.Car;
 import sbrf.hackaton.cit.domain.FixedRoute;
@@ -25,8 +24,8 @@ public class Navigator {
         Explorer roadExplorer = ExplorerFactory.getRecursionExplorer(destination, car);
         Object route;
         do {
-            roadExplorer.routeSearch(start);
-            List<Route> allAvailableRouts = roadExplorer.getAllAvailableRouts();
+
+            List<Route> allAvailableRouts = roadExplorer.routeSearch(start);
             route = getBestRouts(allAvailableRouts);
             if (route instanceof FixedRoute) {
                 car.visitRoute((FixedRoute) route);

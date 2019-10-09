@@ -1,9 +1,9 @@
 package sbrf.hackaton.cit.explorer;
 
-import sbrf.hackaton.cit.api.Cursor;
-import sbrf.hackaton.cit.api.Edge;
-import sbrf.hackaton.cit.api.Route;
-import sbrf.hackaton.cit.api.Vertex;
+import sbrf.hackaton.cit.core.Cursor;
+import sbrf.hackaton.cit.core.Edge;
+import sbrf.hackaton.cit.core.Route;
+import sbrf.hackaton.cit.core.Vertex;
 
 import java.util.List;
 import java.util.Map;

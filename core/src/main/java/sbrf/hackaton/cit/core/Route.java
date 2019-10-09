@@ -1,4 +1,4 @@
-package sbrf.hackaton.cit.api;
+package sbrf.hackaton.cit.core;
 
 import java.util.LinkedList;
 import java.util.Objects;

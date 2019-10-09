@@ -1,7 +1,7 @@
 package sbrf.hackaton.cit.domain;
 
 
-import sbrf.hackaton.cit.api.Edge;
+import sbrf.hackaton.cit.core.Edge;
 
 import java.util.Objects;
 
