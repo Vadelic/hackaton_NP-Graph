@@ -8,9 +8,9 @@ import java.util.Objects;
 public class Road implements Edge {
     private static int count = 0;
     private final int index;
-    private Atm[] nodes = new Atm[2];
+    private final Atm[] nodes = new Atm[2];
 
-    private final double value;
+    private volatile double value;
 
     public Road(Atm from, Atm to, double distance) {
         index = ++count;
@@ -35,6 +35,10 @@ public class Road implements Edge {
 
     public double getDistance() {
         return value;
+    }
+
+    public void setDistance(double value) {
+        this.value = value;
     }
 
     @Override

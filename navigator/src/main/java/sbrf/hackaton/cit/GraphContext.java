@@ -6,7 +6,6 @@ import sbrf.hackaton.cit.domain.Road;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.StringJoiner;
 
 /**
@@ -14,7 +13,7 @@ import java.util.StringJoiner;
  */
 public class GraphContext {
     private Atm[] vertexes;
-    private Road[] edges;
+    private Road[][] edges;
 
     /**
      * Создает граф из матриц
@@ -24,7 +23,8 @@ public class GraphContext {
      */
     public GraphContext(double[] vertex, double[][] edges) {
         this.vertexes = createVertex(vertex);
-        this.edges = binderVertexes(edges, vertexes);
+        this.edges = new Road[vertexes.length][vertexes.length];
+        binderVertexes(edges, vertexes);
     }
 
     /**
@@ -33,7 +33,7 @@ public class GraphContext {
      * @param edges Массив с весами ребер
      */
     public void updateEdges(double[][] edges) {
-        this.edges = binderVertexes(edges, vertexes);
+        binderVertexes(edges, vertexes);
     }
 
     /**
@@ -51,24 +51,35 @@ public class GraphContext {
         return vertexes.toArray(new Atm[0]);
     }
 
-    private Road[] binderVertexes(double[][] mx, Atm[] vertex) {
-        LinkedList<Road> roads = new LinkedList<>();
+    private void binderVertexes(double[][] mx, Atm[] vertex) {
         int length = mx.length;
 
         for (int i = 0; i < length; i++) {
             for (int j = i + 1; j < length; j++) {
-                if (mx[i][j] != 0 || mx[j][i] != 0) {
-                    Road road = createRoad(mx[i][j], mx[j][i], vertex[i], vertex[j]);
-                    roads.add(road);
 
+
+                double max = Math.max(mx[i][j], mx[j][i]);
+                if (max != 0) {
+                    if (edges[i][j] == null) {
+                        edges[i][j] = createRoad(mx[i][j], mx[j][i], vertex[i], vertex[j]);
+                    } else
+                        edges[i][j].setDistance(max);
+                } else {
+                    if (edges[i][j] != null) {
+                        vertex[i].getRoads().remove(edges[i][j]);
+                        vertex[j].getRoads().remove(edges[i][j]);
+                        edges[i][j] = null;
+                    }
                 }
+
             }
         }
-        return roads.toArray(new Road[0]);
+
     }
 
     private Road createRoad(double lenR, double lenL, Atm vertexA, Atm vertexB) {
         Road road;
+        if (lenL == 0 && lenR == 0) return null;
         if (lenL == lenR) {
             road = new Road(vertexA, vertexB, lenL);
             vertexA.addRoad(road);
