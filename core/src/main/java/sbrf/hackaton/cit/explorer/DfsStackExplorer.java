@@ -11,6 +11,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 /**
  * Created by Komyshenets on 28.09.2019.
  */
+@Deprecated
 public class DfsStackExplorer extends ExplorerImpl {
 
     public DfsStackExplorer(List<? extends Vertex> destinationPoints, Cursor cursor) {
@@ -31,11 +32,11 @@ public class DfsStackExplorer extends ExplorerImpl {
     }
 
 
-    private class Direction {
+    private static class Direction {
         Edge edge;
         Vertex vertex;
 
-        public Direction(Edge edge, Vertex vertex) {
+        Direction(Edge edge, Vertex vertex) {
             this.edge = edge;
             this.vertex = vertex;
         }

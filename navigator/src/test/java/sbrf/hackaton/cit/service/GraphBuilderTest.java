@@ -53,7 +53,6 @@ class GraphBuilderTest extends TestGraph {
     }
 
 
-
     @Test
     void lookingOneWayGraph() {
         Atm destinationPoint = new GraphContext(vertexes, directionEdges).getRootVertex(0);
