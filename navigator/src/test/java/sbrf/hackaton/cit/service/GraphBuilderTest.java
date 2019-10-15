@@ -1,7 +1,7 @@
 package sbrf.hackaton.cit.service;
 
 import org.junit.Assert;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import sbrf.hackaton.cit.ExplorerFactory;
 import sbrf.hackaton.cit.GraphContext;
 import sbrf.hackaton.cit.core.Route;
@@ -23,10 +23,10 @@ class GraphBuilderTest extends TestGraph {
         GraphContext graph = new GraphContext(vertexes, directionEdges);
         System.out.println(graph);
 
-        Atm rootVertex = graph.getRootVertex(0);
+        Atm rootVertex = graph.getVertex(0);
         System.out.println(rootVertex);
-        Assert.assertEquals(graph.getRootVertex(0).getPossibleRoutes().size(), 3);
-        Assert.assertEquals(graph.getRootVertex(1).getPossibleRoutes().size(), 2);
+        Assert.assertEquals(graph.getVertex(0).getPossibleRoutes().size(), 3);
+        Assert.assertEquals(graph.getVertex(1).getPossibleRoutes().size(), 2);
 
         Set<Road> edges = rootVertex.getRoads();
         edges.forEach(System.out::println);
@@ -37,7 +37,7 @@ class GraphBuilderTest extends TestGraph {
 
     @Test
     void lookingSimpleTwoWay() {
-        Atm destinationPoint = new GraphContext(vertexes, edges).getRootVertex(0);
+        Atm destinationPoint = new GraphContext(vertexes, edges).getVertex(0);
         Car car = new Car(15, 10);
         Explorer roadExplorer = ExplorerFactory.getExplorer(destinationPoint, car);
         roadExplorer.routeSearch(destinationPoint);
@@ -55,7 +55,7 @@ class GraphBuilderTest extends TestGraph {
 
     @Test
     void lookingOneWayGraph() {
-        Atm destinationPoint = new GraphContext(vertexes, directionEdges).getRootVertex(0);
+        Atm destinationPoint = new GraphContext(vertexes, directionEdges).getVertex(0);
         Car car = new Car(15, 10);
         Explorer roadExplorer = ExplorerFactory.getExplorer(destinationPoint, car);
         roadExplorer.routeSearch(destinationPoint);

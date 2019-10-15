@@ -1,7 +1,7 @@
 package sbrf.hackaton.cit.service;
 
 import org.junit.Assert;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import sbrf.hackaton.cit.GraphContext;
 import sbrf.hackaton.cit.Navigator;
 import sbrf.hackaton.cit.core.Route;
@@ -15,7 +15,7 @@ class NavigatorTest extends TestGraph {
     public void roadBuilderTest() {
         Navigator navigator = new Navigator();
 
-        Atm point = new GraphContext(vertexes, directionEdges).getRootVertex(0);
+        Atm point = new GraphContext(vertexes, directionEdges).getVertex(0);
         Car car = new Car(15, 10);
 
         List<Route> routes = navigator.buildRoutes(point, point, car);

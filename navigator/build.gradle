@@ -1,0 +1,19 @@
+apply plugin: 'java'
+apply plugin: 'application'
+
+group = 'sbrf.hackaton.cit'
+
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile "log4j:log4j:1.2.17"
+    compile "junit:junit:4.12"
+    compile project(':core')
+//    compile  'sbrf.hackaton.cit:core'
+
+}

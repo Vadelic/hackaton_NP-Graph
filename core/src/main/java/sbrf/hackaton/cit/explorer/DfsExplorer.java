@@ -5,19 +5,24 @@ import sbrf.hackaton.cit.core.Edge;
 import sbrf.hackaton.cit.core.Route;
 import sbrf.hackaton.cit.core.Vertex;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 /**
  * Created by Komyshenets on 28.09.2019.
  */
-public class DfsExplorer extends DfsStackExplorer {
+public class DfsExplorer implements Explorer {
+
+    private final List<? extends Vertex> destinationPoint;
+    private final Cursor cursor;
+    private final List<Route> routes = new LinkedList<>();
 
     public DfsExplorer(List<? extends Vertex> destinationPoints, Cursor cursor) {
-        super(destinationPoints, cursor);
+        this.destinationPoint = destinationPoints;
+        this.cursor = cursor;
     }
 
-    @Override
     public List<Route> routeSearch(Vertex startPoint) {
         routes.clear();
         routeSearch(null, startPoint);

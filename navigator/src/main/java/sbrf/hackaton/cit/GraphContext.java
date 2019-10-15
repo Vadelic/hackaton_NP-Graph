@@ -39,7 +39,7 @@ public class GraphContext {
     /**
      * Взять вершину по порядковому номеру
      */
-    public Atm getRootVertex(int i) {
+    public Atm getVertex(int i) {
         return vertexes[i];
     }
 
