@@ -45,7 +45,7 @@ public class Car extends Cursor {
     private void setPlaneWay(ArrayList<RouteBlock> planedPath) {
         for (RouteBlock routeBlock : planedPath) {
             Atm atmPlaned = (Atm) routeBlock.getVertex();
-            atmPlaned.setStatus(PLANED);
+            atmPlaned.setStatus(PLANNED);
             this.planedPath.addLast(routeBlock);
 
         }
