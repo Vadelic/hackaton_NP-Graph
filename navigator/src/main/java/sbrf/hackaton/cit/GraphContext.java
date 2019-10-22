@@ -15,6 +15,7 @@ public class GraphContext {
     private Atm[] vertexes;
     private Road[][] edges;
 
+
     /**
      * Создает граф из матриц
      *
@@ -25,6 +26,11 @@ public class GraphContext {
         this.vertexes = createVertex(vertex);
         this.edges = new Road[vertexes.length][vertexes.length];
         binderVertexes(edges, vertexes);
+
+    }
+
+    public void setOutPoint(int finishPoint) {
+        vertexes[finishPoint].setOut(true);
     }
 
     /**
@@ -32,8 +38,13 @@ public class GraphContext {
      *
      * @param edges Массив с весами ребер
      */
-    public void updateEdges(double[][] edges) {
-        binderVertexes(edges, vertexes);
+    public void updateTraffic(double[][] edges) {
+        int length = edges.length;
+        for (int i = 0; i < length; i++) {
+            for (int j = i + 1; j < length; j++) {
+                this.edges[i][j].setTraffic(edges[i][j]);
+            }
+        }
     }
 
     /**

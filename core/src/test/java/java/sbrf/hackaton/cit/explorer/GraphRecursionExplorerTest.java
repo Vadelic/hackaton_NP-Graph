@@ -19,7 +19,7 @@ public class GraphRecursionExplorerTest {
 
     @Before
     public void setUp() throws Exception {
-        explorer = new DfsExplorer(null, null); // init
+        explorer = new DfsExplorer(null); // init
     }
 
     @Test

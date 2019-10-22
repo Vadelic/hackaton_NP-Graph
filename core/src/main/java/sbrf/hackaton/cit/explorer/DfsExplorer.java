@@ -1,50 +1,53 @@
 package sbrf.hackaton.cit.explorer;
 
-import sbrf.hackaton.cit.core.Cursor;
-import sbrf.hackaton.cit.core.Edge;
-import sbrf.hackaton.cit.core.Route;
-import sbrf.hackaton.cit.core.Vertex;
+import sbrf.hackaton.cit.core.*;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Komyshenets on 28.09.2019.
  */
 public class DfsExplorer implements Explorer {
-
-    private final List<? extends Vertex> destinationPoint;
+    private final LinkedList<Vertex> visited = new LinkedList<>();
     private final Cursor cursor;
-    private final List<Route> routes = new LinkedList<>();
+    private FixedRoute route = null;
 
-    public DfsExplorer(List<? extends Vertex> destinationPoints, Cursor cursor) {
-        this.destinationPoint = destinationPoints;
+
+    public DfsExplorer(Cursor cursor) {
         this.cursor = cursor;
     }
 
-    public List<Route> routeSearch(Vertex startPoint) {
-        routes.clear();
+    public FixedRoute routeSearch(Vertex startPoint) {
+        visited.clear();
         routeSearch(null, startPoint);
-        return routes;
+        return route;
     }
 
     private void routeSearch(Edge road, Vertex point) {
+
         cursor.goToPoint(road, point);
-        if (!cursor.justStarted() && destinationPoint.contains(point)) {
-            routes.add(cursor.fixRoute());
-        } else {
-            Map<? extends Edge, ? extends Vertex> possibleRoutes = point.getPossibleRoutes();
-            for (Map.Entry<? extends Edge, ? extends Vertex> entry : possibleRoutes.entrySet()) {
-                Vertex targetAtm = entry.getValue();
-                Edge targetRoad = entry.getKey();
-                if (cursor.availableRoot(targetRoad, targetAtm)) {
-                    routeSearch(targetRoad, targetAtm);
-                }
+        addFoundRoute(cursor.fixRoute());
+        visited.addLast(point);
+        List<RouteBlock> possibleRoutes = point.getPossibleRoutes();
+        for (RouteBlock possibleRoute : possibleRoutes) {
+            Vertex targetVert = possibleRoute.getVertex();
+            if (visited.contains(targetVert)) {
+                continue;
+            }
+            Edge targetRoad = possibleRoute.getEdge();
+            if (cursor.isAvailableWay(targetRoad, targetVert)) {
+                routeSearch(targetRoad, targetVert);
             }
         }
+        visited.removeLast();
         cursor.removePointAndRoad();
     }
 
 
+    private void addFoundRoute(FixedRoute route) {
+        System.out.println("Fix " + cursor + "\n" + route);
+        if (this.route == null || this.route.getCost() < route.getCost())
+            this.route = route;
+    }
 }

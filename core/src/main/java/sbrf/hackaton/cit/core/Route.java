@@ -9,12 +9,28 @@ public class Route {
     public final LinkedList<Edge> edges = new LinkedList<>();
 
     /**
-     * Получить общий вес ребер на маршруте
+     * Получить общий вес ребер на маршруте.
+     * Первый шаг считаем по реальному трафику а остальные по максимальному
      */
     public double getEdgesValue() {
-        return edges.stream()
-                .mapToDouble(Edge::getDistance)
-                .sum();
+        double sum = 0;
+
+        for (int i = 0; i < edges.size(); i++) {
+            if (i == 0)
+                sum += edges.get(i).getDistanceWithTraffic();
+            else
+                sum += edges.get(i).getDistanceWithHigherTraffic();
+
+        }
+        return sum;
+    }
+
+    public double getFinalEdgeValue() {
+        try {
+            return vertexes.getLast().getFinalRoute().getEdge().getDistanceWithHigherTraffic();
+        } catch (Exception e) {
+            return 0;
+        }
     }
 
     /**
@@ -23,9 +39,15 @@ public class Route {
     public double getVertexValue() {
         return vertexes.stream()
                 .distinct()
-                .filter(atm -> !atm.isVisited())
+//                .filter(vert -> !vert.isVisited())
                 .mapToDouble(Vertex::getValue)
                 .sum();
+    }
+
+    void addDestination(Edge road, Vertex vert) {
+        if (road != null)
+            edges.addLast(road);
+        vertexes.addLast(vert);
     }
 
     void removeLastDestination() {
@@ -33,22 +55,6 @@ public class Route {
         if (!edges.isEmpty())
             edges.removeLast();
     }
-
-    void addDestination(Edge road, Vertex atm) {
-        if (road != null)
-            edges.addLast(road);
-        vertexes.addLast(atm);
-    }
-
-
-    int getCountPoint() {
-        return vertexes.size();
-    }
-
-    boolean containsAtm(Vertex targetAtm) {
-        return vertexes.contains(targetAtm);
-    }
-
 
     @Override
     public boolean equals(Object o) {
@@ -74,19 +80,14 @@ public class Route {
                 .toString();
     }
 
-    void visit() {
-        for (Vertex atm : vertexes) {
-            atm.visit();
-        }
-    }
-
     /**
-     * Стоимость данного маршрута
+     * Стоимость данного маршрута с уч>том финального маршрута
      */
     public double getCost() {
-        double atmValue = getVertexValue();
-        double roadValue = getEdgesValue();
-        return atmValue / roadValue;
+        double vertValue = getVertexValue();
+        double edgeValue = getEdgesValue() + getFinalEdgeValue();
+        return vertValue / edgeValue;
     }
+
 
 }

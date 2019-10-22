@@ -1,3 +1,5 @@
 rootProject.name = 'graph'
 include 'core'
 include 'navigator'
+include 'enviroment'
+

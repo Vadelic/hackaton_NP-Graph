@@ -1,20 +1,19 @@
 package sbrf.hackaton.cit.core;
 
-import java.util.Map;
+import java.util.List;
 
 public interface Vertex {
 
     /**
      * Все ребра ведущие к вершинам
      */
-    Map<? extends Edge, ? extends Vertex> getPossibleRoutes();
+    List<RouteBlock> getPossibleRoutes();
+
+    RouteBlock getFinalRoute();
 
     /**
      * Получить вес вершины
      */
     double getValue();
 
-    boolean isVisited();
-
-    void visit();
 }

@@ -6,10 +6,13 @@ import sbrf.hackaton.cit.core.Edge;
 import java.util.Objects;
 
 public class Road implements Edge {
+    public static final int TRAFFIC_MAX = 3;
+    public static final int TRAFFIC_MIN = 1;
+    private double traffic = TRAFFIC_MIN;
     private static int count = 0;
     private final int index;
-    private final Atm[] nodes = new Atm[2];
 
+    private final Atm[] nodes = new Atm[2];
     private volatile double value;
 
     public Road(Atm from, Atm to, double distance) {
@@ -33,12 +36,28 @@ public class Road implements Edge {
         return nodes[1];
     }
 
+    public void setDistance(double value) {
+        this.value = value;
+    }
+
+    @Override
     public double getDistance() {
         return value;
     }
 
-    public void setDistance(double value) {
-        this.value = value;
+    @Override
+    public double getDistanceWithTraffic() {
+        return value * traffic;
+    }
+
+    @Override
+    public double getDistanceWithHigherTraffic() {
+        return value * TRAFFIC_MAX;
+    }
+
+
+    public void setTraffic(double traffic) {
+        this.traffic = traffic;
     }
 
     @Override

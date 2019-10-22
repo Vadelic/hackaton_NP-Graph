@@ -1,46 +1,50 @@
 package sbrf.hackaton.cit;
 
-import sbrf.hackaton.cit.core.Route;
-import sbrf.hackaton.cit.domain.Atm;
+import sbrf.hackaton.cit.core.FixedRoute;
 import sbrf.hackaton.cit.domain.Car;
-import sbrf.hackaton.cit.domain.FixedRoute;
-import sbrf.hackaton.cit.explorer.Explorer;
 
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Navigator {
+
+    private final GraphContext graphContext;
+    private ArrayList<Car> cars = new ArrayList<>();
+
+    public Navigator(GraphContext graphContext, ArrayList<Car> cars) {
+        this.cars = cars;
+        this.graphContext = graphContext;
+    }
+
+    public Navigator(GraphContext graphContext) {
+        this.graphContext = graphContext;
+    }
+
+    public void updateTraffic(double[][] traffic) {
+        graphContext.updateTraffic(traffic);
+    }
+
+    public Map<Car, FixedRoute> getRoads() {
+        HashMap<Car, FixedRoute> carRouteHashMap = new HashMap<>();
+        for (Car car : cars) {
+            FixedRoute routeFrom = buildRoutes(car);
+            carRouteHashMap.put(car, routeFrom);
+        }
+        return carRouteHashMap;
+    }
+
+
     /**
      * Находит Все маршруты которые всегда начинаются в @param start и заканчиваются @param destination
      *
-     * @param start       Точка в связанном графе от куоторой начинается маршрут
-     * @param destination Точка в связанном графе где маршрут завершается
-     * @param car         автомобиль с ограничениями по значенияям рекбер и вершин
+     * @param start Точка в связанном графе от куоторой начинается маршрут
+     * @param car   автомобиль с ограничениями по значенияям рекбер и вершин
      * @return Список фиксированых маршрутов при которых автомобиль соберет максимум значений вершин
      */
-    public List<Route> buildRoutes(Atm start, List<Atm> destination, Car car) {
-
-        Explorer roadExplorer = ExplorerFactory.getRecursionExplorer(destination, car);
-        Object route;
-        do {
-
-            List<Route> allAvailableRouts = roadExplorer.routeSearch(start);
-            route = getBestRouts(allAvailableRouts);
-            if (route instanceof FixedRoute) {
-                car.visitRoute((FixedRoute) route);
-            }
-
-        } while (route != null);
-        return car.getCompleteRoutes();
+    public FixedRoute buildRoutes(Car car) {
+        return car.goToNextPoint();
     }
 
-    public List<Route> buildRoutes(Atm start, Atm destination, Car car) {
-        List<Atm> destination1 = Collections.singletonList(destination);
-        return buildRoutes(start, destination1, car);
-    }
 
-    private Route getBestRouts(List<Route> allAvailableRouts) {
-        return allAvailableRouts.stream().max(Comparator.comparingDouble(Route::getCost)).orElse(null);
-    }
 }
