@@ -6,32 +6,35 @@ import sbrf.hackaton.cit.core.FixedRoute;
 import sbrf.hackaton.cit.domain.Atm;
 import sbrf.hackaton.cit.domain.Car;
 import sbrf.hackaton.cit.explorer.DfsExplorer;
-import sbrf.hackaton.cit.service.GraphTest;
 
-public class NavigatorTest extends GraphTest {
+public class NavigatorDeepSearchTest {
+
     Navigator navigator;
     GraphContext graphContext;
 
     @Before
     public void init() {
-        graphContext = new GraphContext(vertexes, fullEdges);
+        MatrixGenerator generator = new MatrixGenerator(600);
+        graphContext = new GraphContext(generator.vertexValueRound(20), generator.edgesValueRound(15));
         graphContext.setOutPoint(5);
         navigator = new Navigator(graphContext);
+        System.out.println(graphContext);
     }
 
     @Test
-    public void buildRoutes() {
+    public void getRoads() {
 
         Atm atm = graphContext.getVertex(0);
-        Car car = new Car(15, 10, atm, c -> new DfsExplorer(c, 3));
+        Car car = new Car(480, 5000, atm, c -> new DfsExplorer(c, 2));
+
         System.out.println("CAR0 " + car);
 
         FixedRoute fixedRoute = doStep(car);
         System.out.println("CAR1 " + car);
-        fixedRoute = doStep(car);
-        System.out.println("CAR2 " + car);
-        fixedRoute = doStep(car);
-        System.out.println("CAR3 " + car);
+//        fixedRoute = doStep(car);
+//        System.out.println("CAR2 " + car);
+//        fixedRoute = doStep(car);
+//        System.out.println("CAR3 " + car);
 
     }
 

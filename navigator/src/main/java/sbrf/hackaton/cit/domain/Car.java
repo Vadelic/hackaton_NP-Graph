@@ -1,11 +1,13 @@
 package sbrf.hackaton.cit.domain;
 
 import sbrf.hackaton.cit.core.*;
-import sbrf.hackaton.cit.explorer.DfsExplorer;
+import sbrf.hackaton.cit.explorer.Explorer;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.StringJoiner;
+import java.util.function.Function;
 
 import static sbrf.hackaton.cit.domain.AtmStatus.*;
 
@@ -14,15 +16,20 @@ import static sbrf.hackaton.cit.domain.AtmStatus.*;
  * Created by Komyshenets on 29.09.2019.
  */
 public class Car extends Cursor {
-    private final DfsExplorer dfsExplorer;
+    private final Explorer dfsExplorer;
     private final LinkedList<Atm> currentWay = new LinkedList<>();
     private final LinkedList<RouteBlock> planedPath = new LinkedList<>();
     private double usedTime = 0;
 
-    public Car(int time, int weight, Atm start) {
+    public Car(int time, int weight, Atm start, Function<Car, Explorer> getExplorer) {
         super(time, weight);
         this.currentWay.addLast(start);
-        dfsExplorer = new DfsExplorer(this);
+        dfsExplorer = getExplorer.apply(this);
+    }
+
+    @Override
+    public Car clone() {
+        return (Car) super.clone();
     }
 
     /**
@@ -78,9 +85,10 @@ public class Car extends Cursor {
     }
 
     @Override
-    protected double leftVertexValue() {
-        return moneyMax - currentWay.stream().distinct().mapToDouble(Atm::getValue).sum();
+    public Collection<? extends Vertex> getWay() {
+        return currentWay;
     }
+
 
     @Override
     public String toString() {

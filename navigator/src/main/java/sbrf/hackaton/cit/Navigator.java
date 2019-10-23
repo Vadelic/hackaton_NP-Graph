@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Navigator {
-
+    private final static int DEPTH = 3;
     private final GraphContext graphContext;
     private ArrayList<Car> cars = new ArrayList<>();
 
@@ -38,8 +38,7 @@ public class Navigator {
     /**
      * Находит Все маршруты которые всегда начинаются в @param start и заканчиваются @param destination
      *
-     * @param start Точка в связанном графе от куоторой начинается маршрут
-     * @param car   автомобиль с ограничениями по значенияям рекбер и вершин
+     * @param car автомобиль с ограничениями по значенияям рекбер и вершин
      * @return Список фиксированых маршрутов при которых автомобиль соберет максимум значений вершин
      */
     public FixedRoute buildRoutes(Car car) {

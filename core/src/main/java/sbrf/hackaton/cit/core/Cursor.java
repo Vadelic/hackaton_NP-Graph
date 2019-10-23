@@ -1,10 +1,21 @@
 package sbrf.hackaton.cit.core;
 
-public abstract class Cursor {
+import java.util.Collection;
+
+public abstract class Cursor implements Cloneable {
     protected final Route currentRoute = new Route();
 
-    protected int timeMax;
-    protected int moneyMax;
+    protected final int timeMax;
+    protected final int moneyMax;
+
+    @Override
+    public Cursor clone() {
+        try {
+            return (Cursor) super.clone();
+        } catch (CloneNotSupportedException e) {
+            return null;
+        }
+    }
 
     public Cursor(int time, int weight) {
         this.timeMax = time;
@@ -21,6 +32,7 @@ public abstract class Cursor {
 //        return route;
         return new FixedRoute(currentRoute);
     }
+
 
     /**
      * Вызывается при перемещении к точке
@@ -43,7 +55,7 @@ public abstract class Cursor {
      * не привышает ли расч>тный путь максимальнодопустимое значение
      */
     public boolean isAvailableWay(Edge targetRoad, Vertex targetPoint) {
-        return availablePoint(targetPoint) && availableRoad(targetRoad, targetPoint.getFinalRoute().getEdge());
+        return availablePoint(targetPoint) && availableRoad(targetRoad, targetPoint.getFinalBlock().getEdge());
     }
 
     /**
@@ -54,7 +66,7 @@ public abstract class Cursor {
     }
 
     protected double leftVertexValue() {
-        return moneyMax;
+        return moneyMax - currentRoute.vertexes.stream().distinct().mapToDouble(Vertex::getValue).sum();
     }
 
     /**
@@ -75,5 +87,11 @@ public abstract class Cursor {
     protected double leftEdgeValue() {
         // TODO: 21/10/2019  
         return timeMax;
+    }
+
+    public abstract Collection<? extends Vertex> getWay();
+
+    public int length() {
+        return currentRoute.edges.size();
     }
 }

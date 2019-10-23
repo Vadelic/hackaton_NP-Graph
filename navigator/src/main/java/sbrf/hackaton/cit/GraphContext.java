@@ -109,7 +109,7 @@ public class GraphContext {
     public String toString() {
         return new StringJoiner(", ", GraphContext.class.getSimpleName() + "[", "]")
                 .add("\nvertexes=" + Arrays.toString(vertexes))
-                .add("\nedges=" + Arrays.toString(edges))
+//                .add("\nedges=" + Arrays.toString(edges))
                 .toString();
     }
 

@@ -9,7 +9,7 @@ public interface Vertex {
      */
     List<RouteBlock> getPossibleRoutes();
 
-    RouteBlock getFinalRoute();
+    RouteBlock getFinalBlock();
 
     /**
      * Получить вес вершины

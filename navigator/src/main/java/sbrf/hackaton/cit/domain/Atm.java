@@ -31,12 +31,12 @@ public class Atm implements Vertex {
 
     @Override
     public double getValue() {
-        return value;
+        return out ? 0 : value;
     }
 
     @Override
     public String toString() {
-        return "#" + index + "(" + value + ")";
+        return "#" + index + "(" + getValue() + ")";
     }
 
 
@@ -67,7 +67,7 @@ public class Atm implements Vertex {
      * @return маршрут до точки выгрузки
      */
     @Override
-    public RouteBlock<Road, Atm> getFinalRoute() {
+    public RouteBlock<Road, Atm> getFinalBlock() {
         for (Road road : roads) {
             Atm target = road.getTarget(this);
             if (Objects.nonNull(target) && target.isOut()) {

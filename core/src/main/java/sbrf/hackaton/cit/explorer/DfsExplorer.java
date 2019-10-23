@@ -11,11 +11,19 @@ import java.util.List;
 public class DfsExplorer implements Explorer {
     private final LinkedList<Vertex> visited = new LinkedList<>();
     private final Cursor cursor;
+    private final int depth;
     private FixedRoute route = null;
+    private int count = 0;
 
 
     public DfsExplorer(Cursor cursor) {
         this.cursor = cursor;
+        depth = Integer.MAX_VALUE;
+    }
+
+    public DfsExplorer(Cursor cursor, int depth) {
+        this.cursor = cursor;
+        this.depth = depth;
     }
 
     public FixedRoute routeSearch(Vertex startPoint) {
@@ -24,15 +32,20 @@ public class DfsExplorer implements Explorer {
         return route;
     }
 
-    private void routeSearch(Edge road, Vertex point) {
+    @Override
+    public FixedRoute getRoute() {
+        return route;
+    }
 
-        cursor.goToPoint(road, point);
+    public void routeSearch(Edge road, Vertex vertex) {
+
+        cursor.goToPoint(road, vertex);
         addFoundRoute(cursor.fixRoute());
-        visited.addLast(point);
-        List<RouteBlock> possibleRoutes = point.getPossibleRoutes();
+        visited.addLast(vertex);
+        List<RouteBlock> possibleRoutes = vertex.getPossibleRoutes();
         for (RouteBlock possibleRoute : possibleRoutes) {
             Vertex targetVert = possibleRoute.getVertex();
-            if (visited.contains(targetVert)) {
+            if (visited.contains(targetVert) || cursor.length() >= depth) {
                 continue;
             }
             Edge targetRoad = possibleRoute.getEdge();
@@ -46,7 +59,8 @@ public class DfsExplorer implements Explorer {
 
 
     private void addFoundRoute(FixedRoute route) {
-        System.out.println("Fix " + cursor + "\n" + route);
+        System.out.print("|" + ++count + "-" + route.edges.size() + "|");
+//        System.out.println("Fix " + cursor + "\n" + route);
         if (this.route == null || this.route.getCost() < route.getCost())
             this.route = route;
     }

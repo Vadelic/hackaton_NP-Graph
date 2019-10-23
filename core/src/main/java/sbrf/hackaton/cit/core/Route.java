@@ -4,7 +4,7 @@ import java.util.LinkedList;
 import java.util.Objects;
 import java.util.StringJoiner;
 
-public class Route {
+public class Route implements Cloneable {
     public final LinkedList<Vertex> vertexes = new LinkedList<>();
     public final LinkedList<Edge> edges = new LinkedList<>();
 
@@ -27,7 +27,7 @@ public class Route {
 
     public double getFinalEdgeValue() {
         try {
-            return vertexes.getLast().getFinalRoute().getEdge().getDistanceWithHigherTraffic();
+            return vertexes.getLast().getFinalBlock().getEdge().getDistanceWithHigherTraffic();
         } catch (Exception e) {
             return 0;
         }
