@@ -8,4 +8,14 @@ import java.util.List;
 //        ] }
 public class RoutesServer {
     public List<OneRouteServer> routes;
+
+    public double[][] getArray() {
+        double[][] vert = new double[routes.size()][routes.size()];
+        for (OneRouteServer route : routes) {
+            vert[route.a][route.b] = route.time;
+            vert[route.b][route.a] = route.time;
+        }
+        return vert;
+    }
+
 }

@@ -7,4 +7,13 @@ import java.util.List;
 //        ] }
 public class TrafficServer {
     public List<OneTrafficServer> traffic;
+
+    public double[][] getArray() {
+        double[][] vert = new double[traffic.size()][traffic.size()];
+        for (OneTrafficServer route : traffic) {
+            vert[route.a][route.b] = route.jam;
+            vert[route.b][route.a] = route.jam;
+        }
+        return vert;
+    }
 }

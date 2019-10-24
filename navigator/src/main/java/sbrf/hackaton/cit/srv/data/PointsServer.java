@@ -8,4 +8,12 @@ import java.util.List;
 
 public class PointsServer {
     public List<OnePointServer> points;
+
+    public double[] getArray() {
+        double[] atms = new double[points.size()];
+        for (OnePointServer point : points) {
+            atms[point.p] = point.money;
+        }
+        return atms;
+    }
 }
