@@ -7,6 +7,7 @@ import java.util.List;
 //        ] }
 public class TrafficServer {
     public List<OneTrafficServer> traffic;
+    public String car;
 
     public double[][] getArray() {
         double[][] vert = new double[traffic.size()][traffic.size()];
