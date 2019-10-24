@@ -26,7 +26,7 @@ public class Car extends Cursor {
     private final LinkedList<RouteBlock> planedPath = new LinkedList<>();
     public boolean canMove = true;
     private double usedTime = 0;
-    private String name;
+    public String name;
 
     public Car(String name, int time, int weight, Atm start, Function<Car, Explorer> getExplorer) {
         super(time, weight);

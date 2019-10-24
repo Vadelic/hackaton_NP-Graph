@@ -85,8 +85,9 @@ public class GraphContext {
 
     private Atm[] createVertex(double[] vx) {
         ArrayList<Atm> vertexes = new ArrayList<>();
-        for (double value : vx) {
-            vertexes.add(new Atm(value));
+        for (int i = 0; i < vx.length; i++) {
+            Atm e = new Atm(vx[i], String.valueOf(i));
+            vertexes.add(e);
         }
         return vertexes.toArray(new Atm[0]);
     }

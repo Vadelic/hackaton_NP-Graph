@@ -9,14 +9,16 @@ import java.util.*;
 public class Atm implements Vertex {
     private static int count = 0;
     private final int index;
+    private final String name;
+    public AtmStatus status = AtmStatus.FREE;
     private Set<Road> roads = new HashSet<>();
     private boolean visit = false;
     private double value;
     private boolean out = false;
-    public AtmStatus status = AtmStatus.FREE;
 
 
-    public Atm(double value) {
+    public Atm(double value, String name) {
+        this.name = name;
         this.value = value;
         index = ++count;
     }
@@ -32,6 +34,11 @@ public class Atm implements Vertex {
     @Override
     public double getValue() {
         return out ? 0 : value;
+    }
+
+    @Override
+    public String getName() {
+        return name;
     }
 
     @Override

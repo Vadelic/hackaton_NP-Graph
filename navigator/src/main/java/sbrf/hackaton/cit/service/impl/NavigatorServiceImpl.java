@@ -3,6 +3,8 @@ package sbrf.hackaton.cit.service.impl;
 import org.springframework.stereotype.Service;
 import sbrf.hackaton.cit.GraphContext;
 import sbrf.hackaton.cit.Navigator;
+import sbrf.hackaton.cit.core.FixedRoute;
+import sbrf.hackaton.cit.core.Vertex;
 import sbrf.hackaton.cit.domain.Car;
 import sbrf.hackaton.cit.explorer.DfsExplorer;
 import sbrf.hackaton.cit.service.NavigatorService;
@@ -11,10 +13,7 @@ import sbrf.hackaton.cit.srv.data.PointsServer;
 import sbrf.hackaton.cit.srv.data.RoutesServer;
 import sbrf.hackaton.cit.srv.data.TrafficServer;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 @Service
 public class NavigatorServiceImpl implements NavigatorService {
@@ -45,14 +44,23 @@ public class NavigatorServiceImpl implements NavigatorService {
 
     @Override
     public List<String> updateTraffic(TrafficServer traffic) {
+        ArrayList<String> strings = new ArrayList<>();
         navigator.updateTraffic(traffic.getArray());
         if (Objects.isNull(traffic.car) || traffic.car.isEmpty()) {
-
+            for (Car car : cars.values()) {
+                strings.add(getFixedRouteJSON(car));
+            }
         } else {
             Car car = cars.get(traffic.car);
-            navigator.buildRoutes(car);
+            strings.add(getFixedRouteJSON(car));
         }
         return null;
+    }
+
+    private String getFixedRouteJSON(Car car) {
+        FixedRoute fixedRoute = navigator.buildRoutes(car);
+        Vertex vertex = fixedRoute.getFirstDestination().getVertex();
+        return String.format("{\"goto\": %s, \"car\": \"%s\"}", vertex.getName(), car.name);
     }
 
     private void buildNavigator() {

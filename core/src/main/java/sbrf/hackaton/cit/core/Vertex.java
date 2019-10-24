@@ -16,4 +16,5 @@ public interface Vertex {
      */
     double getValue();
 
+    String getName();
 }

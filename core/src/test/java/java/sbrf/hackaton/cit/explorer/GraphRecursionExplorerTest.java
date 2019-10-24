@@ -27,7 +27,7 @@ public class GraphRecursionExplorerTest {
         final Edge road = null;
         final Vertex point = null;
 
-        List<Route> routes = explorer.routeSearch(point);// test
+        List<Route> routes = (List<Route>) explorer.routeSearch(point);// test
 
         assertEquals("found size", 0, routes.size());
     }
