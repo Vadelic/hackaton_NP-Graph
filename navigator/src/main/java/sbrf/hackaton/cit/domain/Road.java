@@ -6,7 +6,7 @@ import sbrf.hackaton.cit.core.Edge;
 import java.util.Objects;
 
 public class Road implements Edge {
-    public static final int TRAFFIC_MAX = 3;
+    public static final int TRAFFIC_MAX = 2;
     public static final int TRAFFIC_MIN = 1;
     private double traffic = TRAFFIC_MIN;
     private static int count = 0;

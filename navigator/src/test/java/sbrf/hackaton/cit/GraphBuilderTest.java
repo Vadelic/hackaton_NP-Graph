@@ -35,7 +35,7 @@ class GraphBuilderTest extends GraphTest {
     @Test
     void lookingSimpleTwoWay() {
         Atm point = new GraphContext(vertexes, edges).getVertex(0);
-        Car car = new Car(15, 10, point, DfsExplorer::new);
+        Car car = new Car("", 15, 10, point, DfsExplorer::new);
         DfsExplorer dfsExplorer = new DfsExplorer(car);
         Route route = dfsExplorer.routeSearch(point);
         System.out.println(route);
@@ -56,7 +56,7 @@ class GraphBuilderTest extends GraphTest {
     @Test
     void lookingOneWayGraph() {
         Atm point = new GraphContext(vertexes, directionEdges).getVertex(0);
-        Car car = new Car(15, 10, point, DfsExplorer::new);
+        Car car = new Car("", 15, 10, point, DfsExplorer::new);
         DfsExplorer dfsExplorer = new DfsExplorer(car);
         Route route = dfsExplorer.routeSearch(point);
         System.out.println(route);

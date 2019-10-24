@@ -1,7 +1,5 @@
 package sbrf.hackaton.cit.core;
 
-import java.util.stream.Collectors;
-
 public abstract class Cursor implements Cloneable {
     protected final Route currentRoute = new Route();
 
@@ -65,7 +63,7 @@ public abstract class Cursor implements Cloneable {
      * проверка нет ли перегруза в данной точке
      */
     private boolean availablePoint(Vertex targetVert) {
-        return !currentRoute.blocks.stream().map(RouteBlock::getVertex).collect(Collectors.toList()).contains(targetVert) && currentRoute.getVertexValue() + targetVert.getValue() <= leftVertexValue();
+        return targetVert.getValue() <= leftVertexValue();
     }
 
     protected double leftVertexValue() {

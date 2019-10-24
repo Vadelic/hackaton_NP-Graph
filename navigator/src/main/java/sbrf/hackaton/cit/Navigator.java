@@ -43,8 +43,8 @@ public class Navigator {
         return car.goToNextPoint();
     }
 
-    public Car getCar(int time, int weight, int start, Function<Car, Explorer> getExplorer) {
-        Car car = graphContext.getCar(time, weight, start, getExplorer);
+    public Car getCar(String name, int time, int weight, int start, Function<Car, Explorer> getExplorer) {
+        Car car = graphContext.getCar(name, time, weight, start, getExplorer);
         cars.add(car);
         return car;
     }

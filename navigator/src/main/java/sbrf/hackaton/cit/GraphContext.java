@@ -151,7 +151,7 @@ public class GraphContext {
     }
 
 
-    public Car getCar(int time, int weight, int start, Function<Car, Explorer> getExplorer) {
-        return new Car(time, weight, getVertex(start), getExplorer);
+    public Car getCar(String name, int time, int weight, int start, Function<Car, Explorer> getExplorer) {
+        return new Car(name, time, weight, getVertex(start), getExplorer);
     }
 }

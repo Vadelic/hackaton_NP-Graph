@@ -32,7 +32,7 @@ public class NavigatorGenTest extends GraphTest {
     @Test
     public void getRoads() {
 
-        Car car = graphContext.getCar(10, 15, 0, BfsExplorer::new);
+        Car car = graphContext.getCar("", 10, 15, 0, BfsExplorer::new);
         FixedRoute fixedRoute = navigator.buildRoutes(car);
 //        FixedRoute fixedRoute = doStep(car);
 //        System.out.println("CAR1" + car);

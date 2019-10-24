@@ -20,13 +20,15 @@ import static sbrf.hackaton.cit.domain.AtmStatus.*;
  */
 public class Car extends Cursor {
     private final Explorer explorer;
-
+    private final LinkedList<LinkedList<RouteBlock<Road, Atm>>> happenedWays = new LinkedList<>();
     private final LinkedList<RouteBlock<Road, Atm>> currentWay = new LinkedList<>();
     private final LinkedList<RouteBlock> planedPath = new LinkedList<>();
     private double usedTime = 0;
+    private String name;
 
-    public Car(int time, int weight, Atm start, Function<Car, Explorer> getExplorer) {
+    public Car(String name, int time, int weight, Atm start, Function<Car, Explorer> getExplorer) {
         super(time, weight);
+        this.name = name;
         this.currentWay.addLast(new RouteBlock<>(null, start));
         explorer = getExplorer.apply(this);
         start.setStatus(VISITED);
@@ -78,6 +80,16 @@ public class Car extends Cursor {
 
     }
 
+    //    Atm atm = block.getVertex();
+//        currentWay.addLast(block);
+//    usedTime += block.getDistanceWithTraffic();
+//        if (!atm.isOut()) {
+//        atm.setStatus(VISITED);
+//    }else{
+//
+//    }
+//        happenedWays.addLast((LinkedList<RouteBlock<Road, Atm>>) currentWay.clone());
+//}
     @Override
     public boolean isAvailableWay(RouteBlock block) {
         return ((Atm) block.getVertex()).status == AtmStatus.FREE
@@ -90,10 +102,14 @@ public class Car extends Cursor {
         return timeMax - usedTime;
     }
 
+    @Override
+    protected double leftVertexValue() {
+        return super.leftVertexValue() - currentWay.stream().map(RouteBlock::getVertex).mapToDouble(Atm::getValue).sum();
+    }
 
     @Override
     public String toString() {
-        return new StringJoiner(", ", Car.class.getSimpleName() + "[", "]")
+        return new StringJoiner(", ", name + "[", "]")
                 .add("usedTime=" + usedTime)
                 .add("currentWeight=" + (currentWay.stream()
                         .distinct()

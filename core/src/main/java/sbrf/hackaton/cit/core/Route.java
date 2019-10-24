@@ -89,6 +89,7 @@ public class Route implements Cloneable {
 
 
     public double usedVolume() {
-        return blocks.stream().map(RouteBlock::getVertex).distinct().mapToDouble(Vertex::getValue).sum();
+        // TODO: 24/10/2019 как это считать?
+        return blocks.stream().map(RouteBlock::getVertex).distinct().mapToDouble(Vertex::getValue).skip(1).sum();
     }
 }

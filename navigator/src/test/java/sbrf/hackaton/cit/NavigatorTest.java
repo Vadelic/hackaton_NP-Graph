@@ -23,7 +23,7 @@ public class NavigatorTest extends GraphTest {
     public void buildRoutes() {
 
         Atm atm = graphContext.getVertex(0);
-        Car car = new Car(15, 10, atm, c -> new DfsExplorer(c, 3));
+        Car car = new Car("", 15, 10, atm, c -> new DfsExplorer(c, 3));
         System.out.println("CAR0 " + car);
 
         FixedRoute fixedRoute = doStep(car);

@@ -93,7 +93,8 @@ public class Atm implements Vertex {
 
     public void setStatus(AtmStatus status) {
 // TODO: 21/10/2019
-        this.status = status;
+        if (!isOut())
+            this.status = status;
     }
 
     public boolean isAvailable() {
