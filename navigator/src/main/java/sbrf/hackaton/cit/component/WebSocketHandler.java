@@ -6,14 +6,17 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.socket.*;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
 
 @Component
 public class WebSocketHandler extends TextWebSocketHandler {
     private static final Logger log = LoggerFactory.getLogger(WebSocketHandler.class);
+    private final Map<String, WebSocketSession> sessions = new ConcurrentHashMap<>();
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-        super.afterConnectionEstablished(session);
         log.info("CONNECTED");
     }
 
@@ -25,7 +28,10 @@ public class WebSocketHandler extends TextWebSocketHandler {
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
         log.info("message: {}", new String(message.asBytes()));
-        super.handleTextMessage(session, message);
+        final String sessionId = session.getId();
+        sessions.putIfAbsent(sessionId, session); // save session
+
+        session.sendMessage(message); // echo message
     }
 
 //    @Override
@@ -38,10 +44,11 @@ public class WebSocketHandler extends TextWebSocketHandler {
 //        super.handleTransportError(session, exception);
 //    }
 //
-//    @Override
-//    public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
-//        super.afterConnectionClosed(session, status);
-//    }
+    @Override
+    public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
+        log.info("CLOSED");
+        sessions.remove(session.getId());
+    }
 //
 //    @Override
 //    public boolean supportsPartialMessages() {
