@@ -1,6 +1,5 @@
 package sbrf.hackaton.cit.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.socket.WebSocketHttpHeaders;
@@ -10,7 +9,6 @@ import org.springframework.web.socket.config.annotation.EnableWebSocket;
 import sbrf.hackaton.cit.component.WebSocketHandler;
 import sbrf.hackaton.cit.service.SomeService;
 
-import javax.annotation.PostConstruct;
 import java.net.URI;
 import java.util.concurrent.ExecutionException;
 
@@ -21,14 +19,14 @@ import java.util.concurrent.ExecutionException;
 @EnableWebSocket
 public class WebSocketClientConfig {
 
-    @PostConstruct
-    public void connect() throws ExecutionException, InterruptedException {
-        client().doHandshake(new WebSocketHandler(), new WebSocketHttpHeaders(), URI.create("ws://echo.websocket.org")) // todo change url
-                .get();
-    }
-
     @Bean
-    public WebSocketClient client() {
-        return new StandardWebSocketClient();
+    public WebSocketClient client(SomeService someService) throws ExecutionException, InterruptedException {
+        final StandardWebSocketClient standardWebSocketClient = new StandardWebSocketClient();
+
+        standardWebSocketClient
+                .doHandshake(new WebSocketHandler(someService), new WebSocketHttpHeaders(), URI.create("ws://echo.websocket.org")) // todo change url
+                .get();
+
+        return standardWebSocketClient;
     }
 }
