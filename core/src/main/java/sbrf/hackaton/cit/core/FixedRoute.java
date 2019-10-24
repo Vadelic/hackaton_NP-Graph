@@ -3,31 +3,32 @@ package sbrf.hackaton.cit.core;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.StringJoiner;
+import java.util.stream.Collectors;
 
 public class FixedRoute extends Route {
 
     public FixedRoute(Route route) {
-        this.vertexes.addAll(route.vertexes);
-        this.edges.addAll(route.edges);
+        this.blocks.addAll(route.blocks);
 
-        RouteBlock finalBlock = route.vertexes.getLast().getFinalBlock();
+        RouteBlock finalBlock = route.blocks.getLast().getFinalBlock();
         if (Objects.nonNull(finalBlock))
-            addDestination(finalBlock.getEdge(), finalBlock.getVertex());
+            addDestination(finalBlock);
 
     }
 
     public double getFinalEdgeValue() {
         try {
-            return edges.getLast().getDistanceWithHigherTraffic();
+            return blocks.getLast().getDistanceWithHigherTraffic();
         } catch (Exception e) {
             return 0;
         }
     }
 
     public RouteBlock getFirstDestination() {
-        Vertex vertex = vertexes.get(1);
-        Edge edge = edges.get(0);
-        return new RouteBlock<>(edge, vertex);
+        if (blocks.size() > 1)
+            return blocks.get(1);
+        else
+            return null;
     }
 
     public double getCost() {
@@ -38,10 +39,10 @@ public class FixedRoute extends Route {
 
     public ArrayList<RouteBlock> getPlanedPath() {
         ArrayList<RouteBlock> routeBlocks = new ArrayList<>();
-        if (edges.size() > 1)
-            for (int i = 1; i < edges.size(); i++) {
-                RouteBlock block = new RouteBlock<>(edges.get(i), vertexes.get(i + 1));
-                routeBlocks.add(block);
+
+        if (blocks.size() > 2)
+            for (int i = 2; i < blocks.size(); i++) {
+                routeBlocks.add(blocks.get(i));
             }
         return routeBlocks;
     }
@@ -49,15 +50,15 @@ public class FixedRoute extends Route {
     @Override
     public String toString() {
         StringJoiner stringJoiner = new StringJoiner(",");
-        for (Edge edge : edges) {
+        for (Edge edge : blocks.stream().map(RouteBlock::getEdge).filter(Objects::nonNull).collect(Collectors.toList())) {
             stringJoiner.add("\n" + edge.toString());
         }
         return new StringJoiner(", ", this.getClass().getSimpleName() + "[", "]")
-                .add("points=" + vertexes)
+                .add("points=" + blocks.stream().map(RouteBlock::getVertex).collect(Collectors.toList()))
                 .add(stringJoiner.toString())
                 .add("\nvertex:" + getVertexValue())
                 .add("edge:" + getEdgesValue())
-                .add("cost:" + getCost() + "\n")
+                .add("cost:" + getCost())
                 .toString();
     }
 

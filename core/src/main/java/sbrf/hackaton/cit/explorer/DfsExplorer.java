@@ -2,8 +2,7 @@ package sbrf.hackaton.cit.explorer;
 
 import sbrf.hackaton.cit.core.*;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by Komyshenets on 28.09.2019.
@@ -12,7 +11,9 @@ public class DfsExplorer implements Explorer {
     private final LinkedList<Vertex> visited = new LinkedList<>();
     private final Cursor cursor;
     private final int depth;
-    private FixedRoute route = null;
+    //    private FixedRoute route = null;
+    private Map<Integer, FixedRoute> routes = new TreeMap<>();
+
     private int count = 0;
 
 
@@ -28,18 +29,16 @@ public class DfsExplorer implements Explorer {
 
     public FixedRoute routeSearch(Vertex startPoint) {
         visited.clear();
+        routes.clear();
         routeSearch(null, startPoint);
-        return route;
+        Integer integer = routes.keySet().stream().max(Comparator.comparingInt(o -> o)).orElse(0);
+        return routes.get(integer);
     }
 
-    @Override
-    public FixedRoute getRoute() {
-        return route;
-    }
 
-    public void routeSearch(Edge road, Vertex vertex) {
-
-        cursor.goToPoint(road, vertex);
+    public void routeSearch(Edge edge, Vertex vertex) {
+        RouteBlock<Edge, Vertex> startBlock = new RouteBlock<>(edge, vertex);
+        cursor.goToPoint(startBlock);
         addFoundRoute(cursor.fixRoute());
         visited.addLast(vertex);
         List<RouteBlock> possibleRoutes = vertex.getPossibleRoutes();
@@ -49,7 +48,7 @@ public class DfsExplorer implements Explorer {
                 continue;
             }
             Edge targetRoad = possibleRoute.getEdge();
-            if (cursor.isAvailableWay(targetRoad, targetVert)) {
+            if (cursor.isAvailableWay(possibleRoute)) {
                 routeSearch(targetRoad, targetVert);
             }
         }
@@ -59,9 +58,12 @@ public class DfsExplorer implements Explorer {
 
 
     private void addFoundRoute(FixedRoute route) {
-        System.out.print("|" + ++count + "-" + route.edges.size() + "|");
+        int size = route.blocks.size();
+        FixedRoute fixedRoute = routes.get(size);
+
+//        System.out.print("|" + ++count + "-" + route.blocks.size() + "|");
 //        System.out.println("Fix " + cursor + "\n" + route);
-        if (this.route == null || this.route.getCost() < route.getCost())
-            this.route = route;
+        if (fixedRoute == null || fixedRoute.getCost() < route.getCost())
+            routes.put(size, route);
     }
 }

@@ -1,12 +1,17 @@
 package sbrf.hackaton.cit.core;
 
-import java.util.Collection;
+import java.util.stream.Collectors;
 
 public abstract class Cursor implements Cloneable {
     protected final Route currentRoute = new Route();
 
     protected final int timeMax;
     protected final int moneyMax;
+
+    public Cursor(int time, int weight) {
+        this.timeMax = time;
+        this.moneyMax = weight;
+    }
 
     @Override
     public Cursor clone() {
@@ -15,11 +20,6 @@ public abstract class Cursor implements Cloneable {
         } catch (CloneNotSupportedException e) {
             return null;
         }
-    }
-
-    public Cursor(int time, int weight) {
-        this.timeMax = time;
-        this.moneyMax = weight;
     }
 
     /**
@@ -37,8 +37,9 @@ public abstract class Cursor implements Cloneable {
     /**
      * Вызывается при перемещении к точке
      */
-    public void goToPoint(Edge road, Vertex point) {
-        currentRoute.addDestination(road, point);
+
+    public void goToPoint(RouteBlock<Edge, Vertex> block) {
+        currentRoute.addDestination(block);
     }
 
     /**
@@ -54,44 +55,46 @@ public abstract class Cursor implements Cloneable {
      * <p>
      * не привышает ли расч>тный путь максимальнодопустимое значение
      */
-    public boolean isAvailableWay(Edge targetRoad, Vertex targetPoint) {
-        return availablePoint(targetPoint) && availableRoad(targetRoad, targetPoint.getFinalBlock().getEdge());
+    public boolean isAvailableWay(RouteBlock<? extends Edge, ? extends Vertex> block) {
+        return availablePoint(block.getVertex())
+                && availableRoad(block);
+
     }
 
     /**
      * проверка нет ли перегруза в данной точке
      */
     private boolean availablePoint(Vertex targetVert) {
-        return currentRoute.getVertexValue() + targetVert.getValue() <= leftVertexValue();
+        return !currentRoute.blocks.stream().map(RouteBlock::getVertex).collect(Collectors.toList()).contains(targetVert) && currentRoute.getVertexValue() + targetVert.getValue() <= leftVertexValue();
     }
 
     protected double leftVertexValue() {
-        return moneyMax - currentRoute.vertexes.stream().distinct().mapToDouble(Vertex::getValue).sum();
+        return moneyMax - currentRoute.usedVolume();
     }
 
     /**
      * проверяет подходит ли этот маршруи с уч>том времени на возвращение
      */
-    private boolean availableRoad(Edge targetRoad, Edge finalRoad) {
-        double targetRoadDistance;
-        if (currentRoute.edges.isEmpty()) {
-            targetRoadDistance = targetRoad.getDistanceWithTraffic();
-        } else {
-            targetRoadDistance = targetRoad.getDistanceWithHigherTraffic();
-        }
-        double finalRoadDistance = finalRoad.getDistanceWithHigherTraffic();
+    private boolean availableRoad(RouteBlock<? extends Edge, ? extends Vertex> block) {
+        double currentEdgesValue = currentRoute.getEdgesValue();
 
-        return currentRoute.getEdgesValue() + targetRoadDistance + finalRoadDistance <= leftEdgeValue();
+        double targetRoadDistance;
+        if (currentRoute.blocks.size() <= 1) {
+            targetRoadDistance = block.getDistanceWithTraffic();
+        } else {
+            targetRoadDistance = block.getDistanceWithHigherTraffic();
+        }
+        double finalRoadDistance = block.getFinalBlock().getDistanceWithHigherTraffic();
+        return currentEdgesValue + targetRoadDistance + finalRoadDistance <= leftEdgeValue();
     }
 
     protected double leftEdgeValue() {
-        // TODO: 21/10/2019  
+        // TODO: 21/10/2019
         return timeMax;
     }
 
-    public abstract Collection<? extends Vertex> getWay();
 
     public int length() {
-        return currentRoute.edges.size();
+        return currentRoute.blocks.size();
     }
 }

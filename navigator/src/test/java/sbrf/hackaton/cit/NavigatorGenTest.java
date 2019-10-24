@@ -3,16 +3,16 @@ package sbrf.hackaton.cit;
 import org.junit.Before;
 import org.junit.Test;
 import sbrf.hackaton.cit.core.FixedRoute;
-import sbrf.hackaton.cit.domain.Atm;
 import sbrf.hackaton.cit.domain.Car;
-import sbrf.hackaton.cit.explorer.DfsExplorer;
+import sbrf.hackaton.cit.explorer.BfsExplorer;
+import sbrf.hackaton.cit.service.GraphTest;
 
-public class NavigatorGenTest {
+public class NavigatorGenTest extends GraphTest {
 
     Navigator navigator;
     GraphContext graphContext;
 
-    @Before
+    //    @Before
     public void init() {
         MatrixGenerator generator = new MatrixGenerator(100);
         graphContext = new GraphContext(generator.vertexValueRound(20), generator.edgesValueRound(15));
@@ -21,18 +21,26 @@ public class NavigatorGenTest {
         System.out.println(graphContext);
     }
 
+    @Before
+    public void initSimpleGraph() {
+        graphContext = new GraphContext(vertexes, fullEdges);
+        graphContext.setOutPoint(5);
+        navigator = new Navigator(graphContext);
+        System.out.println(graphContext);
+    }
+
     @Test
     public void getRoads() {
 
-        Atm atm = graphContext.getVertex(0);
-        Car car = new Car(480, 5000, atm, DfsExplorer::new);
-
-        FixedRoute fixedRoute = doStep(car);
-        System.out.println("CAR1" + car);
-        fixedRoute = doStep(car);
-        System.out.println("CAR2" + car);
-        fixedRoute = doStep(car);
-        System.out.println("CAR3" + car);
+        Car car = graphContext.getCar(10, 15, 0, BfsExplorer::new);
+        FixedRoute fixedRoute = navigator.buildRoutes(car);
+//        FixedRoute fixedRoute = doStep(car);
+//        System.out.println("CAR1" + car);
+//        System.out.println("CAR1" + car);
+//        fixedRoute = doStep(car);
+//        System.out.println("CAR2" + car);
+//        fixedRoute = doStep(car);
+//        System.out.println("CAR3" + car);
 
     }
 

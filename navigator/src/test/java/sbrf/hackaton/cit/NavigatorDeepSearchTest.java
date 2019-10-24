@@ -3,9 +3,11 @@ package sbrf.hackaton.cit;
 import org.junit.Before;
 import org.junit.Test;
 import sbrf.hackaton.cit.core.FixedRoute;
-import sbrf.hackaton.cit.domain.Atm;
 import sbrf.hackaton.cit.domain.Car;
 import sbrf.hackaton.cit.explorer.DfsExplorer;
+
+import java.io.File;
+import java.io.IOException;
 
 public class NavigatorDeepSearchTest {
 
@@ -13,10 +15,11 @@ public class NavigatorDeepSearchTest {
     GraphContext graphContext;
 
     @Before
-    public void init() {
-        MatrixGenerator generator = new MatrixGenerator(600);
-        graphContext = new GraphContext(generator.vertexValueRound(20), generator.edgesValueRound(15));
-        graphContext.setOutPoint(5);
+    public void init() throws IOException {
+        File file = new File("/Users/admin/IdeaProjects/GraphAPI/navigator/src/test/java/sbrf/hackaton/cit/dataLO");
+
+        graphContext = new GraphContext(file);
+        graphContext.setOutPoint(4);
         navigator = new Navigator(graphContext);
         System.out.println(graphContext);
     }
@@ -24,17 +27,13 @@ public class NavigatorDeepSearchTest {
     @Test
     public void getRoads() {
 
-        Atm atm = graphContext.getVertex(0);
-        Car car = new Car(480, 5000, atm, c -> new DfsExplorer(c, 2));
+        Car car = navigator.getCar(480, 5000, 0, c -> new DfsExplorer(c));
 
         System.out.println("CAR0 " + car);
+        do {
+            FixedRoute fixedRoute = doStep(car);
+        } while (!car.atFinish());
 
-        FixedRoute fixedRoute = doStep(car);
-        System.out.println("CAR1 " + car);
-//        fixedRoute = doStep(car);
-//        System.out.println("CAR2 " + car);
-//        fixedRoute = doStep(car);
-//        System.out.println("CAR3 " + car);
 
     }
 
@@ -42,6 +41,7 @@ public class NavigatorDeepSearchTest {
         FixedRoute fixedRoute = navigator.buildRoutes(car);
         System.out.println("\n---------------------");
         System.out.println(fixedRoute);
+        System.out.println("CAR1 " + car);
         System.out.println("---------------------");
         return fixedRoute;
     }

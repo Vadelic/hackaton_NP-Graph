@@ -2,20 +2,18 @@ package sbrf.hackaton.cit;
 
 import sbrf.hackaton.cit.core.FixedRoute;
 import sbrf.hackaton.cit.domain.Car;
+import sbrf.hackaton.cit.explorer.Explorer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Function;
 
 public class Navigator {
-    private final static int DEPTH = 3;
     private final GraphContext graphContext;
     private ArrayList<Car> cars = new ArrayList<>();
 
-    public Navigator(GraphContext graphContext, ArrayList<Car> cars) {
-        this.cars = cars;
-        this.graphContext = graphContext;
-    }
+
 
     public Navigator(GraphContext graphContext) {
         this.graphContext = graphContext;
@@ -45,5 +43,9 @@ public class Navigator {
         return car.goToNextPoint();
     }
 
-
+    public Car getCar(int time, int weight, int start, Function<Car, Explorer> getExplorer) {
+        Car car = graphContext.getCar(time, weight, start, getExplorer);
+        cars.add(car);
+        return car;
+    }
 }

@@ -13,7 +13,7 @@ public class Atm implements Vertex {
     private boolean visit = false;
     private double value;
     private boolean out = false;
-    private AtmStatus status = AtmStatus.FREE;
+    public AtmStatus status = AtmStatus.FREE;
 
 
     public Atm(double value) {

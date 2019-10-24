@@ -5,8 +5,9 @@ import java.util.Objects;
 import java.util.StringJoiner;
 
 public class Route implements Cloneable {
-    public final LinkedList<Vertex> vertexes = new LinkedList<>();
-    public final LinkedList<Edge> edges = new LinkedList<>();
+    //    public final LinkedList<Vertex> vertexes = new LinkedList<>();
+//    public final LinkedList<Edge> edges = new LinkedList<>();
+    public final LinkedList<RouteBlock<Edge, Vertex>> blocks = new LinkedList<>();
 
     /**
      * Получить общий вес ребер на маршруте.
@@ -15,11 +16,11 @@ public class Route implements Cloneable {
     public double getEdgesValue() {
         double sum = 0;
 
-        for (int i = 0; i < edges.size(); i++) {
-            if (i == 0)
-                sum += edges.get(i).getDistanceWithTraffic();
+        for (int i = 0; i < blocks.size(); i++) {
+            if (i == 1)
+                sum += blocks.get(i).getDistanceWithTraffic();
             else
-                sum += edges.get(i).getDistanceWithHigherTraffic();
+                sum += blocks.get(i).getDistanceWithHigherTraffic();
 
         }
         return sum;
@@ -27,7 +28,7 @@ public class Route implements Cloneable {
 
     public double getFinalEdgeValue() {
         try {
-            return vertexes.getLast().getFinalBlock().getEdge().getDistanceWithHigherTraffic();
+            return blocks.getLast().getFinalBlock().getEdge().getDistanceWithHigherTraffic();
         } catch (Exception e) {
             return 0;
         }
@@ -37,23 +38,20 @@ public class Route implements Cloneable {
      * Получить общий вес вершин на маршруте
      */
     public double getVertexValue() {
-        return vertexes.stream()
+        return blocks.stream()
                 .distinct()
-//                .filter(vert -> !vert.isVisited())
+                .map(RouteBlock::getVertex)
                 .mapToDouble(Vertex::getValue)
                 .sum();
     }
 
-    void addDestination(Edge road, Vertex vert) {
-        if (road != null)
-            edges.addLast(road);
-        vertexes.addLast(vert);
+    public void addDestination(RouteBlock block) {
+        blocks.addLast(block);
     }
 
     void removeLastDestination() {
-        vertexes.removeLast();
-        if (!edges.isEmpty())
-            edges.removeLast();
+        if (!blocks.isEmpty())
+            blocks.removeLast();
     }
 
     @Override
@@ -61,19 +59,19 @@ public class Route implements Cloneable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Route route = (Route) o;
-        return vertexes.equals(route.vertexes);
+        return blocks.equals(route.blocks);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(vertexes);
+        return Objects.hash(blocks);
     }
 
     @Override
     public String toString() {
 
         return new StringJoiner(", ", Route.class.getSimpleName() + "[", "]")
-                .add("points=" + vertexes)
+                .add("points=" + blocks)
                 .add("vertex:" + getVertexValue())
                 .add("edge:" + getEdgesValue())
                 .add("cost:" + getCost())
@@ -90,4 +88,7 @@ public class Route implements Cloneable {
     }
 
 
+    public double usedVolume() {
+        return blocks.stream().map(RouteBlock::getVertex).distinct().mapToDouble(Vertex::getValue).sum();
+    }
 }
