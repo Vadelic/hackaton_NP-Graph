@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.*;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
+import sbrf.hackaton.cit.service.SomeService;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -14,6 +15,12 @@ import java.util.concurrent.ConcurrentHashMap;
 public class WebSocketHandler extends TextWebSocketHandler {
     private static final Logger log = LoggerFactory.getLogger(WebSocketHandler.class);
     private final Map<String, WebSocketSession> sessions = new ConcurrentHashMap<>();
+
+    private final SomeService service;
+
+    public WebSocketHandler(SomeService service) {
+        this.service = service;
+    }
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
@@ -32,6 +39,12 @@ public class WebSocketHandler extends TextWebSocketHandler {
         sessions.putIfAbsent(sessionId, session); // save session
 
         session.sendMessage(message); // echo message
+
+        // or
+
+        final String parse = new String(message.asBytes()); // parse
+        if (parse.equals("123"))
+            service.print(parse); // invoke service
     }
 
 //    @Override
