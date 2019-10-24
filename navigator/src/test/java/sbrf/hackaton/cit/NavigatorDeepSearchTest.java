@@ -22,7 +22,7 @@ public class NavigatorDeepSearchTest {
         graphContext = new GraphContext(file);
         graphContext.setOutPoint(599);
         navigator = new Navigator(graphContext);
-        System.out.println(graphContext);
+//        System.out.println(graphContext);
     }
 
     @Test
@@ -42,6 +42,7 @@ public class NavigatorDeepSearchTest {
 
     private FixedRoute doStep(Car car) {
         FixedRoute fixedRoute = navigator.buildRoutes(car);
+//        System.out.println(fixedRoute);
         System.out.println("CAR1 " + car);
         System.out.println("---------------------");
         return fixedRoute;
