@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.function.Function;
 
 public class Navigator {
+    public static Navigator navigator;
     private final GraphContext graphContext;
     private ArrayList<Car> cars = new ArrayList<>();
 
@@ -17,6 +18,7 @@ public class Navigator {
 
     public Navigator(GraphContext graphContext) {
         this.graphContext = graphContext;
+
     }
 
     public void updateTraffic(double[][] traffic) {

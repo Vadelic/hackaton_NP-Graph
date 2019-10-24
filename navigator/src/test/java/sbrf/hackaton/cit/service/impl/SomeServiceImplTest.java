@@ -14,7 +14,7 @@ import static org.junit.Assert.assertEquals;
 @SpringBootTest
 public class SomeServiceImplTest {
     @Autowired
-    private SomeServiceImpl someService;
+    private NavigatorServiceImpl someService;
 
     @Test
     public void print_ok() {
