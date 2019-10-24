@@ -32,6 +32,9 @@ dependencies {
     compile project(':core')
     // https://mvnrepository.com/artifact/commons-io/commons-io
     compile group: 'commons-io', name: 'commons-io', version: '2.6'
+    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-websocket
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-websocket', version: '2.2.0.RELEASE'
+
 
     // https://mvnrepository.com/artifact/io.github.oliviercailloux/google-or-tools
 //    compile group: 'io.github.oliviercailloux', name: 'google-or-tools', version: '6.7.2'
