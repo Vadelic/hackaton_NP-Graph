@@ -12,6 +12,7 @@ import sbrf.hackaton.cit.srv.data.RoutesServer;
 import sbrf.hackaton.cit.srv.data.TrafficServer;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -43,7 +44,7 @@ public class NavigatorServiceImpl implements NavigatorService {
     }
 
     @Override
-    public String updateTraffic(TrafficServer traffic) {
+    public List<String> updateTraffic(TrafficServer traffic) {
         navigator.updateTraffic(traffic.getArray());
         if (Objects.isNull(traffic.car) || traffic.car.isEmpty()) {
 
