@@ -1,5 +1,6 @@
 package sbrf.hackaton.cit.domain;
 
+import org.springframework.lang.Nullable;
 import sbrf.hackaton.cit.core.Cursor;
 import sbrf.hackaton.cit.core.FixedRoute;
 import sbrf.hackaton.cit.core.RouteBlock;
@@ -23,6 +24,7 @@ public class Car extends Cursor {
     private final LinkedList<LinkedList<RouteBlock<Road, Atm>>> happenedWays = new LinkedList<>();
     private final LinkedList<RouteBlock<Road, Atm>> currentWay = new LinkedList<>();
     private final LinkedList<RouteBlock> planedPath = new LinkedList<>();
+    public boolean canMove = true;
     private double usedTime = 0;
     private String name;
 
@@ -39,15 +41,16 @@ public class Car extends Cursor {
         return (Car) super.clone();
     }
 
-    /**
-     * @return
-     */
+    @Nullable
     public FixedRoute goToNextPoint() {
         cleanPlanedWay();
 
         Atm last = currentWay.getLast().getVertex();
         FixedRoute fixedRoute = explorer.routeSearch(last);
-
+        if (fixedRoute.blocks.size() == 1) {
+            canMove = false;
+            return null;
+        }
         RouteBlock<Road, Atm> firstDestination = fixedRoute.getFirstDestination();
         ArrayList<RouteBlock> planedPath = fixedRoute.getPlanedPath();
 
@@ -73,23 +76,18 @@ public class Car extends Cursor {
 
     private void visitAtm(RouteBlock<Road, Atm> block) {
         Atm atm = block.getVertex();
-        atm.setStatus(VISITED);
         currentWay.addLast(block);
         usedTime += block.getDistanceWithTraffic();
+        if (atm.isOut()) {
+            happenedWays.addLast(new LinkedList<>(currentWay));
+            currentWay.clear();
+            currentWay.addLast(new RouteBlock<>(null, atm));
+        } else
+            atm.setStatus(VISITED);
 
 
     }
 
-    //    Atm atm = block.getVertex();
-//        currentWay.addLast(block);
-//    usedTime += block.getDistanceWithTraffic();
-//        if (!atm.isOut()) {
-//        atm.setStatus(VISITED);
-//    }else{
-//
-//    }
-//        happenedWays.addLast((LinkedList<RouteBlock<Road, Atm>>) currentWay.clone());
-//}
     @Override
     public boolean isAvailableWay(RouteBlock block) {
         return ((Atm) block.getVertex()).status == AtmStatus.FREE
@@ -109,9 +107,15 @@ public class Car extends Cursor {
 
     @Override
     public String toString() {
+        StringJoiner stringJoiner = new StringJoiner(",", "[", "]");
+        for (LinkedList<RouteBlock<Road, Atm>> happenedWay : happenedWays) {
+            stringJoiner.add("happenedWay=" + happenedWay.stream().map(RouteBlock::getVertex).collect(Collectors.toList()));
+        }
+
         return new StringJoiner(", ", name + "[", "]")
                 .add("usedTime=" + usedTime)
-                .add("currentWeight=" + (currentWay.stream()
+                .add("\nhW=" + stringJoiner.toString())
+                .add("\ncurrentWeight=" + (currentWay.stream()
                         .distinct()
                         .map(RouteBlock::getVertex)
                         .mapToDouble(Vertex::getValue)
