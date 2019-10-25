@@ -43,7 +43,7 @@ public class NavigatorServiceImpl implements NavigatorService {
     }
 
     @Override
-    public List<String> updateTraffic(TrafficServer traffic) {
+    public synchronized List<String> updateTraffic(TrafficServer traffic) {
         ArrayList<String> strings = new ArrayList<>();
         navigator.updateTraffic(traffic.getArray());
         if (Objects.isNull(traffic.car) || traffic.car.isEmpty()) {
@@ -81,4 +81,10 @@ public class NavigatorServiceImpl implements NavigatorService {
             }
         }
     }
+
+    public boolean checkAvailable() {
+        return this.main != null && !this.cars.isEmpty() && this.points != null && this.routes != null;
+
+    }
+
 }
