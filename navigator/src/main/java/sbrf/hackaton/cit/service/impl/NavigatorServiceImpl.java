@@ -30,7 +30,7 @@ public class NavigatorServiceImpl implements NavigatorService {
 
     @Override
     public void createVertex(PointsServer points) {
-        if (points != null) return;
+//        if (points != null) return;
         this.points = points;
         buildNavigator();
         carsBuilder();
@@ -38,7 +38,7 @@ public class NavigatorServiceImpl implements NavigatorService {
 
     @Override
     public void createRoads(RoutesServer routesServer) {
-        if (routes != null) return;
+//        if (routes != null) return;
 
         this.routes = routesServer;
         buildNavigator();
@@ -81,10 +81,10 @@ public class NavigatorServiceImpl implements NavigatorService {
     }
 
     private void carsBuilder() {
-        if (Objects.nonNull(navigator) && Objects.nonNull(main)) {
+        if (Objects.nonNull(navigator) && Objects.nonNull(main) && cars.size() == 0) {
             cars.clear();
             for (String carName : main.cars) {
-                Car car = navigator.getCar(carName, 480, 1000000, 0, c -> new DfsExplorer(c, 3));
+                Car car = navigator.getCar(carName, 300, 1000000, 0, c -> new DfsExplorer(c, 3));
                 cars.put(carName, car);
             }
         }

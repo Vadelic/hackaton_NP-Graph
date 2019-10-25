@@ -35,10 +35,12 @@ public class TestApp {
 
         try {
             // open websocket
-            final WebsocketClientEndpoint clientEndPoint = new WebsocketClientEndpoint(new URI("ws://172.30.9.50:3000/race"));
+            final WebsocketClientEndpoint clientEndPoint = new WebsocketClientEndpoint(new URI("ws://172.30.9.50:880/race"));
             // add listener
             clientEndPoint.addMessageHandler(new WebsocketClientEndpoint.MessageHandler() {
                 public void handleMessage(String message) {
+                    System.out.println(message);
+
                     if (message.contains("token")) {
                         MainResponseServer mainInfo = Mapper.map(message, MainResponseServer.class);
                         navigator.createNavigator(mainInfo);
@@ -70,23 +72,23 @@ public class TestApp {
                         }
 
 
-                        updateRoutes(clientEndPoint, navigator, traffic[0]);
+//                        updateRoutes(clientEndPoint, navigator, traffic[0]);
                     }
                     if (message.contains("routes")) {
                         RoutesServer routes = Mapper.map(message, RoutesServer.class);
                         navigator.createRoads(routes);
-                        updateRoutes(clientEndPoint, navigator, traffic[0]);
+//                        updateRoutes(clientEndPoint, navigator, traffic[0]);
                     }
                     if (message.contains("points")) {
                         PointsServer points = Mapper.map(message, PointsServer.class);
                         navigator.createVertex(points);
-                        updateRoutes(clientEndPoint, navigator, traffic[0]);
+//                        updateRoutes(clientEndPoint, navigator, traffic[0]);
                     }
                     if (message.contains("traffic")) {
                         traffic[0] = Mapper.map(message, TrafficServer.class);
                         updateRoutes(clientEndPoint, navigator, traffic[0]);
                     }
-                    System.out.println(message);
+
                 }
             });
 
@@ -94,12 +96,17 @@ public class TestApp {
             clientEndPoint.sendMessage("{\"team\":\"Digital\"}");
 
             // wait 5 seconds for messages from websocket
-            TimeUnit.MINUTES.sleep(10);
+            do {
+                try {
+                    TimeUnit.MINUTES.sleep(10);
+                } catch (InterruptedException e) {
+                    break;
+                }
+            } while (true);
 
         } catch (URISyntaxException ex) {
             System.err.println("URISyntaxException exception: " + ex.getMessage());
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+
         }
 
 
