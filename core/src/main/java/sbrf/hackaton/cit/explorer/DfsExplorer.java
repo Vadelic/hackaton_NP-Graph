@@ -64,6 +64,14 @@ public class DfsExplorer implements Explorer {
 //        System.out.print("|" + ++count + "-" + route.blocks.size() + "|");
 //        System.out.println("Fix " + cursor + "\n" + route);
         if (fixedRoute == null || fixedRoute.getCost() < route.getCost())
-            routes.put(size, route);
+            if (priorityCondition(fixedRoute, route))
+                routes.put(size, route);
+    }
+
+    private boolean priorityCondition(FixedRoute oldR, FixedRoute newR) {
+        if (oldR == null)
+            return true;
+        return oldR.priorityValue() < newR.priorityValue();
+
     }
 }

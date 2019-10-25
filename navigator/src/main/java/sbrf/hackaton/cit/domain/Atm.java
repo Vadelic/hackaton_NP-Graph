@@ -43,7 +43,7 @@ public class Atm implements Vertex {
 
     @Override
     public String toString() {
-        return "#" + index + "(" + getValue() + ")";
+        return "#" + name + "(" + getValue() + ")";
     }
 
 

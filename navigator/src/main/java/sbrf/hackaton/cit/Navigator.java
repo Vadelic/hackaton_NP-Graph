@@ -42,7 +42,9 @@ public class Navigator {
      * @return Список фиксированых маршрутов при которых автомобиль соберет максимум значений вершин
      */
     public FixedRoute buildRoutes(Car car) {
-        return car.goToNextPoint();
+        FixedRoute fixedRoute = car.goToNextPoint();
+        System.out.println(car);
+        return fixedRoute;
     }
 
     public Car getCar(String name, int time, int weight, int start, Function<Car, Explorer> getExplorer) {

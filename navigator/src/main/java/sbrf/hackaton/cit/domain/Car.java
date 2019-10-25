@@ -114,14 +114,14 @@ public class Car extends Cursor {
 
         return new StringJoiner(", ", name + "[", "]")
                 .add("usedTime=" + usedTime)
-                .add("\nhW=" + stringJoiner.toString())
+//                .add("\nhW=" + stringJoiner.toString())
                 .add("\ncurrentWeight=" + (currentWay.stream()
                         .distinct()
                         .map(RouteBlock::getVertex)
                         .mapToDouble(Vertex::getValue)
                         .sum()))
                 .add("currentWay=" + currentWay.stream().map(RouteBlock::getVertex).collect(Collectors.toList()))
-                .add("planedPath=" + planedPath)
+//                .add("planedPath=" + planedPath)
                 .toString();
     }
 

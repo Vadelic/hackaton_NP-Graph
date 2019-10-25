@@ -71,7 +71,8 @@ public class GraphContext {
         int length = edges.length;
         for (int i = 0; i < length; i++) {
             for (int j = i + 1; j < length; j++) {
-                this.edges[i][j].setTraffic(edges[i][j]);
+                if (edges[i][j] != 0)
+                    this.edges[i][j].setTraffic(edges[i][j]);
             }
         }
     }

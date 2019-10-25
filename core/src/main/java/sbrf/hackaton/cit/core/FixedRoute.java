@@ -66,4 +66,10 @@ public class FixedRoute extends Route {
     protected Object clone() throws CloneNotSupportedException {
         return super.clone();
     }
+
+    public double priorityValue() {
+        blocks
+                .stream();
+        return 0;
+    }
 }

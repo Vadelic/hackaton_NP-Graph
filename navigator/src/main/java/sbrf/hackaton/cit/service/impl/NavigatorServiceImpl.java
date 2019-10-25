@@ -30,6 +30,7 @@ public class NavigatorServiceImpl implements NavigatorService {
 
     @Override
     public void createVertex(PointsServer points) {
+        if (points != null) return;
         this.points = points;
         buildNavigator();
         carsBuilder();
@@ -37,6 +38,8 @@ public class NavigatorServiceImpl implements NavigatorService {
 
     @Override
     public void createRoads(RoutesServer routesServer) {
+        if (routes != null) return;
+
         this.routes = routesServer;
         buildNavigator();
         carsBuilder();
@@ -48,17 +51,22 @@ public class NavigatorServiceImpl implements NavigatorService {
         navigator.updateTraffic(traffic.getArray());
         if (Objects.isNull(traffic.car) || traffic.car.isEmpty()) {
             for (Car car : cars.values()) {
-                strings.add(getFixedRouteJSON(car));
+                String fixedRouteJSON = getFixedRouteJSON(car);
+                if (fixedRouteJSON != null)
+                    strings.add(fixedRouteJSON);
             }
         } else {
             Car car = cars.get(traffic.car);
-            strings.add(getFixedRouteJSON(car));
+            String fixedRouteJSON = getFixedRouteJSON(car);
+            if (fixedRouteJSON != null)
+                strings.add(fixedRouteJSON);
         }
         return strings;
     }
 
     private String getFixedRouteJSON(Car car) {
         FixedRoute fixedRoute = navigator.buildRoutes(car);
+        if (fixedRoute == null) return null;
         Vertex vertex = fixedRoute.getFirstDestination().getVertex();
         return String.format("{\"goto\": %s, \"car\": \"%s\"}", vertex.getName(), car.name);
     }
