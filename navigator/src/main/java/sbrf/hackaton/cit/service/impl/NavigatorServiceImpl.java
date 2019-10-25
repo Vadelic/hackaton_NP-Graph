@@ -54,7 +54,7 @@ public class NavigatorServiceImpl implements NavigatorService {
             Car car = cars.get(traffic.car);
             strings.add(getFixedRouteJSON(car));
         }
-        return null;
+        return strings;
     }
 
     private String getFixedRouteJSON(Car car) {
