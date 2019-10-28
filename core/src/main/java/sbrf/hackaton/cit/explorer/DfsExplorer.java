@@ -60,18 +60,11 @@ public class DfsExplorer implements Explorer {
     private void addFoundRoute(FixedRoute route) {
         int size = route.blocks.size();
         FixedRoute fixedRoute = routes.get(size);
-
-//        System.out.print("|" + ++count + "-" + route.blocks.size() + "|");
-//        System.out.println("Fix " + cursor + "\n" + route);
-        if (fixedRoute == null || fixedRoute.getCost() < route.getCost())
-            if (priorityCondition(fixedRoute, route))
-                routes.put(size, route);
+        if (fixedRoute == null) {
+            routes.put(size, route);
+        } else if (fixedRoute.priorityValue() < route.priorityValue()) {
+            routes.put(size, route);
+        }
     }
 
-    private boolean priorityCondition(FixedRoute oldR, FixedRoute newR) {
-        if (oldR == null)
-            return true;
-        return oldR.priorityValue() < newR.priorityValue();
-
-    }
 }

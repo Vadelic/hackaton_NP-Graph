@@ -7,10 +7,8 @@ import sbrf.hackaton.cit.srv.data.RoutesServer;
 import sbrf.hackaton.cit.srv.data.TrafficServer;
 import sbrf.hackaton.cit.srv.parse.Mapper;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.*;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -35,7 +33,7 @@ public class TestApp {
 
         try {
             // open websocket
-            final WebsocketClientEndpoint clientEndPoint = new WebsocketClientEndpoint(new URI("ws://172.30.9.50:880/race"));
+            final WebsocketClientEndpoint clientEndPoint = new WebsocketClientEndpoint(new URI("ws://172.30.9.50:8080/race"));
             // add listener
             clientEndPoint.addMessageHandler(new WebsocketClientEndpoint.MessageHandler() {
                 public void handleMessage(String message) {
@@ -45,31 +43,7 @@ public class TestApp {
                         MainResponseServer mainInfo = Mapper.map(message, MainResponseServer.class);
                         navigator.createNavigator(mainInfo);
 
-                        String url = "http://localhost:8080/startrace";
 
-                        try {
-                            URL obj = new URL(url);
-                            HttpURLConnection connection = (HttpURLConnection) obj.openConnection();
-
-                            connection.setRequestMethod("GET");
-
-                            BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                            String inputLine;
-                            StringBuffer response = new StringBuffer();
-
-                            while ((inputLine = in.readLine()) != null) {
-                                response.append(inputLine);
-                            }
-                            in.close();
-
-                            System.out.println(response.toString());
-                        } catch (ProtocolException e) {
-                            e.printStackTrace();
-                        } catch (MalformedURLException e) {
-                            e.printStackTrace();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
 
 
 //                        updateRoutes(clientEndPoint, navigator, traffic[0]);
@@ -93,7 +67,7 @@ public class TestApp {
             });
 
             // send message to websocket
-            clientEndPoint.sendMessage("{\"team\":\"Digital\"}");
+            clientEndPoint.sendMessage("{\"team\":\"Digital Platform\"}");
 
             // wait 5 seconds for messages from websocket
             do {

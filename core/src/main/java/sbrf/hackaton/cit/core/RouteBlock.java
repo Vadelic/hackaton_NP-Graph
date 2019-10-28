@@ -66,4 +66,8 @@ public class RouteBlock<E extends Edge, V extends Vertex> {
     public int hashCode() {
         return Objects.hash(edge, vertex);
     }
+
+    public double priority() {
+        return vertex.priority();
+    }
 }

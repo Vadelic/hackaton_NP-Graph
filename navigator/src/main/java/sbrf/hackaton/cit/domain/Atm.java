@@ -15,12 +15,18 @@ public class Atm implements Vertex {
     private boolean visit = false;
     private double value;
     private boolean out = false;
-
+    private boolean disable = false;
+    private boolean priority = false;
 
     public Atm(double value, String name) {
         this.name = name;
         this.value = value;
         index = ++count;
+    }
+
+    @Override
+    public double priority() {
+        return priority ? getValue() * 2 : getValue();
     }
 
     public boolean isOut() {
@@ -29,6 +35,10 @@ public class Atm implements Vertex {
 
     public void setOut(boolean out) {
         this.out = out;
+    }
+
+    public void setPriority(boolean priority) {
+        this.priority = priority;
     }
 
     @Override

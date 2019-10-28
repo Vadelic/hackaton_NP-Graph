@@ -68,8 +68,10 @@ public class FixedRoute extends Route {
     }
 
     public double priorityValue() {
-        blocks
-                .stream();
-        return 0;
+        return blocks.stream()
+                .distinct()
+                .mapToDouble(RouteBlock::priority)
+                .sum();
+
     }
 }
